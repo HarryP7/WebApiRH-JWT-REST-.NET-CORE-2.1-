@@ -1,8 +1,8 @@
-## WebApiRH - JWT + REST NET CORE 2.1
-## JWT
-| **Build** | **Dependency** |
-|-----------|---------------|
-| [![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) | [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken) |
+## WebApiRH  JWT + REST NET CORE 2.1
+
+		| **Build** | **Dependency** |
+		|-----------|---------------|
+## JWT	| [![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) | [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken) |
 ## REST  [![Build status](https://ci.appveyor.com/api/projects/status/5vdwwducje0miayf?svg=true)](https://ci.appveyor.com/project/hallem/restsharp) [![Join the chat at https://gitter.im/RestSharp/RestSharp](https://badges.gitter.im/RestSharp/RestSharp.svg)](https://gitter.im/RestSharp/RestSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 -----------------------
@@ -13,7 +13,7 @@
     * ASP.NET и разработка веб-приложений;
     * Хранение и обработка данных;
     * Кроссплатформенная разработка .NET Core.
-3. Клонируйте проект по ссылке в нужную папку: 
+3. Клонируйте проект по ссылке в нужную папку, к примеру: 
 ```bash
 $ md WebApiRH
 $ cd WebApiRH
