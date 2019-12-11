@@ -1,5 +1,4 @@
 ## WebApiRH
-
 ###Инструкция по развертыванию сервера .NET Core 2.1:
 1.  Если не установлено IDE Visual Studio Community 2015-2019: 
     * скачиваем – https://visualstudio.microsoft.com/ru/vs/?rr=https%3A%2F%2Fwww.google.com%2F;
@@ -9,8 +8,8 @@
     * Кроссплатформенная разработка .NET Core.
 3. Клонируйте проект по ссылке в нужную папку: 
 ```bash
-md WebApiRH
-cd WebApiRH
+$ md WebApiRH
+$ cd WebApiRH
 $ git clone https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1.git
 ```
 
@@ -24,8 +23,8 @@ $ git clone https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1.git
 5. Устанавливаем контекст в классе Startup.cs;
 6. Затем для создания базы данных из наших моделей, перейдем к окну Package Manager Console и выполним в нем последовательно две команды:
 ```bash
-Add-Migration Initial 
-Update-Database
+PM> Add-Migration Initial 
+PM> Update-Database
 ```
 Может потребоваться выполнить еще 2 команды, если произойдет ошибка перед 1й командой:
 ```bash
