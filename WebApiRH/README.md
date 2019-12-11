@@ -1,6 +1,6 @@
 ## WebApiRH
 
-Инструкция по развертыванию сервера .NET Core 2.1:
+###Инструкция по развертыванию сервера .NET Core 2.1:
 1.  Если не установлено IDE Visual Studio Community 2015-2019: 
     * скачиваем – https://visualstudio.microsoft.com/ru/vs/?rr=https%3A%2F%2Fwww.google.com%2F;
 2.  При установке выбираем опции: 
@@ -8,11 +8,14 @@
     * Хранение и обработка данных;
     * Кроссплатформенная разработка .NET Core.
 3. Клонируйте проект по ссылке в нужную папку: 
-`md WebApiRH
+```bash
+md WebApiRH
 cd WebApiRH
-$ git clone https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1.git`
+$ git clone https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1.git
+```
 
-## Создание нового проекта .NET CORE 2.1
+-----------------------
+### Создание нового проекта .NET CORE 2.1
 3. Создаем проект в Visual Studio 2019: 
     * Выбираем - Веб-Приложение ASP.NET Core;
     * Выбираем шаблон API –  ASP.NET Core 2.1 + Добавить систему управления версиями; 
