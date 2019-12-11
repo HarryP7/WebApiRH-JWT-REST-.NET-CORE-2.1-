@@ -1,6 +1,12 @@
-## WebApiRH JWT REST .NET CORE 2.1
-------------------------------
-###Инструкция по развертыванию сервера .NET Core 2.1:
+## WebApiRH - JWT + REST NET CORE 2.1
+## JWT
+| **Build** | **Dependency** |
+|-----------|---------------|
+| [![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) | [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken) |
+## REST  [![Build status](https://ci.appveyor.com/api/projects/status/5vdwwducje0miayf?svg=true)](https://ci.appveyor.com/project/hallem/restsharp) [![Join the chat at https://gitter.im/RestSharp/RestSharp](https://badges.gitter.im/RestSharp/RestSharp.svg)](https://gitter.im/RestSharp/RestSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+-----------------------
+### Инструкция по развертыванию сервера .NET Core 2.1:
 1.  Если не установлено IDE Visual Studio Community 2015-2019: 
     * скачиваем – https://visualstudio.microsoft.com/ru/vs/?rr=https%3A%2F%2Fwww.google.com%2F;
 2.  При установке выбираем опции: 
