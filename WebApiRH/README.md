@@ -1,5 +1,5 @@
-## WebApiRH  JWT + REST NET CORE 2.1
-## JWT	| [![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) | [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken) |
+## WebApiRH  .NET CORE 2.1
+## JWT	[![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken)
 ## REST  [![Build status](https://ci.appveyor.com/api/projects/status/5vdwwducje0miayf?svg=true)](https://ci.appveyor.com/project/hallem/restsharp) [![Join the chat at https://gitter.im/RestSharp/RestSharp](https://badges.gitter.im/RestSharp/RestSharp.svg)](https://gitter.im/RestSharp/RestSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 -----------------------
 ### Инструкция по развертыванию сервера .NET Core 2.1:
@@ -18,9 +18,9 @@ $ git clone https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1.git
 
 -----------------------
 ### Создание нового проекта .NET CORE 2.1
-1. Создаем проект в Visual Studio 2019: 
-    * Выбираем - Веб-Приложение ASP.NET Core;
-    * Выбираем шаблон API –  ASP.NET Core 2.1 + Добавить систему управления версиями; 
+1. Создаем проект в **Visual Studio 2019**: 
+    * Выбираем - **Веб-Приложение ASP.NET Core**;
+    * Выбираем **шаблон API** + **ASP.NET Core 2.1** + Добавить систему управления версиями; 
     * Нажимаем кнопку - "**Создать**".
 2. Добавляем папку Models -> добавляем в нее все наши модели и AppDbContext;
 3. Устанавливаем контекст в классе Startup.cs;
