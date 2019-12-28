@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
     View, Text, ScrollView, Image, ActivityIndicator, Button
 } from 'react-native';
-import { SvgXml } from 'react-native-svg';
 import { backArrow } from '../../allSvg'
 import { Header, AdvertCard, styles } from '..';
 import { AddADVERT } from '../../routes';
+import { useGlobal, store } from '../../store'
 
 interface Props { }
 interface Advert {
@@ -30,7 +30,10 @@ class GroupProfile extends Component<any, Props, State> {
 
     componentDidMount = async () => {
         try {
-            const response = await fetch('http://192.168.43.80:5000/api/adverts')
+            const { userLogin, token } = store.state;
+            const response = await fetch('http://192.168.43.80:5000/api/adverts',
+            { headers: {  'Authorization': `Bearer ${token}` }
+            })
             const adverts = await response.json()
             this.setState({ adverts, load: true })
         } catch (e) {
@@ -82,6 +85,25 @@ class GroupProfile extends Component<any, Props, State> {
                         </View>
                         : <ActivityIndicator style={indicator} size={50} color="#92582D" />
                     }
+                    {load ?
+                        <View style={container}>
+                            {adverts.map(item => {
+                                return <AdvertCard data={item} key={item.uid}
+                                    onPress={() => console.log('onPress AdvertCard')} />//navigation.navigate(GroupPRO, (item))
+                            })}
+                        </View>
+                        : <ActivityIndicator style={indicator} size={50} color="#92582D" />
+                    }
+                    {load ?
+                        <View style={container}>
+                            {adverts.map(item => {
+                                return <AdvertCard data={item} key={item.uid}
+                                    onPress={() => console.log('onPress AdvertCard')} />//navigation.navigate(GroupPRO, (item))
+                            })}
+                        </View>
+                        : <ActivityIndicator style={indicator} size={50} color="#92582D" />
+                    }
+                    <View style={{ margin: 30 }}><Text> </Text></View>
                 </ScrollView>
             </View>
         );

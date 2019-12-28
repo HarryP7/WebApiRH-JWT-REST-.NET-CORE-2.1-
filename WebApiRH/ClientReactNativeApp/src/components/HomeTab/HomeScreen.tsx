@@ -1,19 +1,15 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet, SafeAreaView, View, Text, TouchableOpacity, Image, ScrollView, ActivityIndicator, Button
 } from 'react-native';
-import {
-  LearnMoreLinks, Colors, DebugInstructions, ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import { createStackNavigator, NavigationStackScreenProps } from 'react-navigation-stack';
 import { Header, styles } from '..';
-import { SvgXml } from 'react-native-svg';
 import { menu } from '../../allSvg'
 import { HomeStatus } from '../../enum/Enums';
-import { h, w } from '../../constants'
-import { AddGROUP } from '../../routes';
+import { h, w, brown } from '../../constants'
+import { AddGROUP, AUTH, REGISTRATION, GroupLIST } from '../../routes';
 import { Home, User } from '../../interfaces'
 import { useGlobal, store } from '../../store'
+import { Card } from 'react-native-elements'
 
 interface State {
   data: Home,
@@ -24,31 +20,45 @@ interface State {
 interface Props { }
 
 const dataR = { uid: '94fa3436-0f41-4ae8-89ae-571682b1b304', "location": 'г.Готем-сити ул. Тейтен-Уест, д. 73', "appartaments": 208, "fk_Admin": "0000e0000-t0t-00t0-t000-00000000000", "floors": 14, "porches": 4, "fk_Status": 1, "yearCommissioning": '2015', "imageUrl": { createdAt: "2019-11-15T00:00:00", removed: false, uid: "5ddc6bd0-627b-42da-a603-d62adab55efe", url: "https://i.ibb.co/c1Tc0Pp/house-1876063-960-720.jpg" }, tenants: [{}, {}, {}, {}], localGroups: [{}, {}] }
-class HomeScreen extends PureComponent<any, State, Props> {
+class HomeScreen extends Component<any, State, Props> {
   state = {
     data: {
-      uid: '', location: '', fk_Admin: '', fk_Image: '', fk_Status: 0,
-      appartaments: 0, floors: 0, porches: 0, yearCommissioning: '',
-      imageUrl: { uid: '', url: '' }
-    }, load: false, token: '',userLogin: {}
+      uid: '',
+      location: '',
+      fk_Admin: '',
+      fk_Image: '', 
+      fk_Status: 0,
+      appartaments: 0, 
+      floors: 0, 
+      porches: 0, 
+      yearCommissioning: '',
+      imageUrl: { 
+        uid: '',
+        url: '' 
+      }
+    }, 
+    load: false, 
+    token: '', 
+    userLogin: {}
   } as State
 
+
   componentDidMount = async () => {
+
     try {
       const { userLogin, token } = store.state;
       console.log('componentDidMount token: ', token)
       console.log('componentDidMount userLogin: ', userLogin)
       //console.log('Uid ',JSON.stringify(dataR.uid))
-      var uid = { Uid: userLogin.fk_Home}
+      var uid = userLogin.fk_Home;
       if (token) {
-        const response = await fetch('http://192.168.43.80:5000/api/home/my',
+        const response = await fetch('http://192.168.43.80:5000/api/home?Uid=' + uid,
           {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(uid)
+            }
           })
         if (response.status == 200) {
           const data = await response.json()
@@ -57,57 +67,80 @@ class HomeScreen extends PureComponent<any, State, Props> {
         }
         else {
           console.log('Ошибка: ', response)
+          this.setState({ load: true })
         }
       }
     } catch (e) {
       throw e
     }
   }
-  
+
   render() {
     const { navigation } = this.props
     const { indicator } = styles
     const { load } = this.state
-    var { userLogin, token } = store.state;    
-    this.setState({userLogin, token})
+    var { userLogin, token } = store.state;
     console.log('token: ', token)
     console.log('load: ', load)
     console.log('userLogin: ', userLogin)
+    
     return (<View>
       <Header title='Дом'
         leftIcon={menu}
         onPressLeft={() => {
           navigation.openDrawer()
         }} />
+      {/* <ActivityIndicator style={indicator} size={50} color={brown} /> */}
       {token ?
         <View>
           {userLogin.fk_Home ?
             <View>
               {load ? this.HomeData()
-                : <ActivityIndicator style={indicator} size={50} color="#92582D" />}
+                :
+                <ActivityIndicator style={indicator} size={50} color={brown} />}
             </View>
             : this.Login('Вас еще не утвердили в доме')}
         </View>
-        : this.Login('Вы не вошли в систему!')}
+        : this.Login('Чтобы видеть на этом экране информацию по вашему дому войдите или зарегистрируйтесь!')}
 
     </View>
     );
   }
   private Login(text: string) {
-    const { indicator } = styles
+    const { indicator, button2, buttonContainer, buttonTitle } = styles
+    const { navigation } = this.props
     const { h2 } = locStyles
     return <View style={indicator}>
-      <Button title='Обновить' onPress={() => {
+      {/* <Button title='Обновить' onPress={() => {
         this.componentDidMount(); this.render();
-      }}></Button>
-      <Text style={h2}>{text}</Text>
+      }}></Button> */}
+      <Card containerStyle={{ padding: 10, borderRadius: 10 }} >
+        <Image source={require('../../../icon/warning-shield.png')}
+          style={{ alignSelf: 'center' }} />
+        <Text style={h2}>{text}</Text>
+        <View style={button2}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(AUTH, (false))}>
+            <View style={buttonContainer}>
+              <Text style={buttonTitle}>Войти</Text>
+            </View>
+          </TouchableOpacity>
+          <View style={{ width: 20 }}></View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(REGISTRATION)}>
+            <View style={buttonContainer}>
+              <Text style={buttonTitle}>Зарегистрироваться</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </Card>
     </View>
   }
   private HomeData() {
     const { userLogin } = store.state;
     const { navigation } = this.props
     const { images, h1 } = styles
-    const { status, h2, sectionContainer, sectionTitle, container,
+    const { status, h3, sectionContainer, sectionTitle, container,
       sectionContainer1, sectionTitle1, } = locStyles
     const { data } = this.state
     const { imageUrl, location, appartaments, floors, porches, fk_Status,
@@ -123,7 +156,7 @@ class HomeScreen extends PureComponent<any, State, Props> {
             <Text style={sectionTitle1}>Жители   {tenants.length}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.onAddGroup} >
+        <TouchableOpacity onPress={() => navigation.navigate(GroupLIST)} >
           <View style={sectionContainer1}>
             <Text style={sectionTitle1}>Группы    {localGroups.length}</Text>
           </View>
@@ -143,17 +176,14 @@ class HomeScreen extends PureComponent<any, State, Props> {
         </TouchableOpacity>
       </View>
 
-      <Text style={h2}>Кол-во квартир: {appartaments} </Text>
-      <Text style={h2}>Кол-во этажей: {floors} </Text>
-      <Text style={h2}>Кол-во подъездов: {porches} </Text>
-      <Text style={h2}>Год ввода в эксплуатацию: {yearCommissioning} </Text>
-      <View style={{margin: 55}}><Text> </Text></View>
+      <Text style={h3}>Кол-во квартир: {appartaments} </Text>
+      <Text style={h3}>Кол-во этажей: {floors} </Text>
+      <Text style={h3}>Кол-во подъездов: {porches} </Text>
+      <Text style={h3}>Год ввода в эксплуатацию: {yearCommissioning} </Text>
+      <View style={{ margin: 55 }}><Text> </Text></View>
     </ScrollView>
   }
   private onAddTenant() {
-
-  }
-  private onAddGroup() {
 
   }
 
@@ -199,13 +229,16 @@ const locStyles = StyleSheet.create({
     textAlign: 'center'
   },
   h2: {
+    padding: 15,
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  h3: {
     paddingLeft: 15,
-    marginVertical: 5
-    //fontSize: 24,
-    //width: w,
-    //fontWeight: 'bold',
+    marginVertical: 5,
+    fontSize: 18,
   },
 })
 
-export { HomeScreen }
+export default (HomeScreen)
 

@@ -1,31 +1,31 @@
 import * as React from 'react';
 import {
   View,Text, ScrollView, ActivityIndicator } from 'react-native';
-import { Header, SearchHeader, GroupCard,  styles } from '..';
-import {  backArrow, search } from '../../allSvg'
-import { GroupPRO } from '../../routes';
+import { Header, SearchHeader, HomeCard,  styles } from '..';
+import {  menu, search,backArrow } from '../../allSvg'
+import { HOMEProfile } from '../../routes';
 import { brown } from '../../constants';
-import { useGlobal, store } from '../../store'
-import { Group } from '../../interfaces'
+import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { Home } from '../../interfaces'
+
 
 interface State {
-  data: Group[],
-  dataOld: Group[],
+  data: Home[],
+  dataOld: Home[],
   load: boolean,
   visibleSearch: boolean,
   text: string
 }
 
-class GroupScreen extends React.PureComponent<any, State> {
+class SearchHomeScreen extends React.PureComponent<any, State> {
   state = { data: [], dataOld: [], load: false, visibleSearch: false, text: '' } as State
   
   componentDidMount = async () => {
     try {
-      const { userLogin, token } = store.state;
-      const response = await fetch('http://192.168.43.80:5000/api/groups',
-      { headers: {  'Authorization': `Bearer ${token}` }})
+      const response = await fetch('http://192.168.43.80:5000/api/home/all')
       const data = await response.json()
-      this.setState({ data, load: true, dataOld: data })
+      this.setState({ data, dataOld: data, load: true })
+      console.log('Успех fetch home all',data)
     } catch (e) {
       throw e
     }
@@ -34,7 +34,7 @@ class GroupScreen extends React.PureComponent<any, State> {
   _onChangeText = (text: string) => {
     if(text){
       var filtered = this.state.data.filter((el) =>
-        el.title.toLowerCase().indexOf(text.toLowerCase()) > -1);     
+        el.location.toLowerCase().indexOf(text.toLowerCase()) > -1);     
       this.setState({ data: filtered, text });
       }
       else this.setState({ data: this.state.dataOld, text });
@@ -45,19 +45,22 @@ class GroupScreen extends React.PureComponent<any, State> {
     const dataR = [{ "admin": null, "adverts": [Array], "createdAt": "2019-11-15T00:00:00", "editedAt": "2019-11-15T00:00:00", "fk_Admin": "0000e0000-t0t-00t0-t000-00000000000", "fk_Home": null, "fk_Image": "5ddc6bd0-627b-42da-a603-d62adab55efe", "fk_Status": 1, "home": null, "image": { createdAt: "2019-11-15T00:00:00", removed: false, uid: "3f7d7280-dba7-4119-9cdf-71dd30647d6e", url: "https://i.ibb.co/c1Tc0Pp/house-1876063-960-720.jpg" }, "messages": [Array], "removed": false, "title": "Дом - Объявления", "uid": "3f685871-7ff7-4e1e-8280-f93064bd4f2a", "users": [Array] }, { "admin": null, "adverts": [Array], "createdAt": "2019-11-15T00:00:00", "editedAt": "2019-11-15T00:00:00", "fk_Admin": "0000e0000-t0t-00t0-t000-00000000000", "fk_Home": null, "fk_Image": "3f7d7280-dba7-4119-9cdf-71dd30647d6e", "fk_Status": 1, "home": null, "image": { createdAt: "2019-11-15T00:00:00", removed: false, uid: "5ddc6bd0-627b-42da-a603-d62adab55efe", url: "https://i.ibb.co/bQcGvqJ/yxz-Pf-v-Yy3g.jpg" }, "messages": [Array], "removed": false, "title": "1й подъезд - Объявления", "uid": "dac7bf05-4260-4d0f-9e32-d2eee80589db", "users": [Array] }]
     const { background, container, indicator } = styles
     const { navigation } = this.props
-    console.log(this.props)
+    console.log('Rander Props: ',this.props)
+    console.log('Rander Data: ',data)
     return (<View>
       {visibleSearch ?
-        <SearchHeader           
-          rightIcon={backArrow}
-          onChangeText={this._onChangeText}
-          value={this.state.text}
-          onPressRight={() => this.setState({visibleSearch: false, data: this.state.dataOld})}
-          onBlur={() => this.setState({visibleSearch: false})}
-        /> : 
-        <Header title='Группы'          
-        leftIcon={backArrow}
-        onPressLeft={() => navigation.goBack()}
+       <SearchHeader           
+         rightIcon={backArrow}
+         onChangeText={this._onChangeText.bind(this)}
+         value={this.state.text}
+         onPressRight={() => this.setState({visibleSearch: false, data: this.state.dataOld})}
+         onBlur={() => this.setState({visibleSearch: false})}
+       />  : 
+        <Header title='Поиск дома'
+          leftIcon={menu}
+          onPressLeft={() => {
+            navigation.openDrawer()
+          }}
           rightIcon={search}
           onPressRight={() => this.setState({visibleSearch: true})}
         />
@@ -66,8 +69,8 @@ class GroupScreen extends React.PureComponent<any, State> {
         {load ?
           <View style={container}>
             {data.map(item => {
-              return <GroupCard data={item} key={item.uid}
-                onPress={() => navigation.navigate(GroupPRO, (item))} />//
+              return <HomeCard data={item} key={item.uid}
+                onPress={() => navigation.navigate(HOMEProfile, (item))} />//
             })}
           </View> :
           <ActivityIndicator style={indicator} size={50} color={brown} />
@@ -79,4 +82,4 @@ class GroupScreen extends React.PureComponent<any, State> {
   }
 }
 
-export {GroupScreen} //connect(mapStateToProps,{searchChanged})
+export {SearchHomeScreen} //connect(mapStateToProps,{searchChanged})

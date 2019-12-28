@@ -12,6 +12,7 @@
     "@types/react-native-material-dropdown": "^0.11.3",
     "react": "16.9.0",
     "react-native": "0.61.3",
+    "react-native-dropdown-autocomplete": "^1.0.18",
     "react-native-dropdown-menu": "^2.0.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.5.0",
@@ -20,10 +21,12 @@
     "react-native-reanimated": "^1.4.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-svg": "^9.13.3",
+    "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^1.10.3",
     "react-navigation-tabs": "^2.5.6",
+    "teaset": "^0.7.1",
     "use-global-hook-ts": "^0.8.0"
   },
   "devDependencies": {

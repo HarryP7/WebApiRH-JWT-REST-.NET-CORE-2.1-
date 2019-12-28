@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import SplashScreen from './src/components/SplashScreen'
+import SplashScreen from './src/components/OtherScreens/SplashScreen'
 
 
 const App = () => {  

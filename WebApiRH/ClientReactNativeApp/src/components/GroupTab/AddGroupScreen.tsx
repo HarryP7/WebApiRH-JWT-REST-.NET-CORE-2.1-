@@ -9,10 +9,11 @@ import {
 import { SvgXml } from 'react-native-svg';
 import { save } from '../../allSvg'
 import { Header } from '..';//, styles 
-import { Dropdown } from 'react-native-material-dropdown';
+import { Dropdown, DropDownMargins } from 'react-native-material-dropdown';
 import { h, w } from '../../constants'
 import { GroupStatus } from '../../enum/Enums'
 import { backArrow } from '../../allSvg'
+import { useGlobal, store } from '../../store'
 //import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 //import {Fab} from '@material-ui/core';
 //import Save from '@material-ui/icons/Save';
@@ -23,14 +24,14 @@ interface State { }
 class AddGroupScreen extends Component<any, State, Props> {
   state = {
      title: '',status: '', colorT: '#000', colorPass: '#000',
-    good: false, signup: false
+    good: false, submit: false,
 
   }
 
   render() {
     console.log('Props AddGroupScreen', this.props)
-    const { signup, title,  colorT,
-      colorPass, good, status } = this.state
+    const { submit, title,  colorT,
+       good, status } = this.state
     const { navigation } = this.props
     const { container, fixToText, label, label2, textInput, textInput2, input,
       button, iconMin, sectionContainer, sectionTitle } = styles
@@ -77,7 +78,8 @@ class AddGroupScreen extends Component<any, State, Props> {
 
         <View style={{ alignItems: 'flex-end' }}>
           <View style={button}>
-            <TouchableOpacity onPress={this.onSubmit.bind(this)} >
+            <TouchableOpacity onPress={this.onSubmit.bind(this)} 
+                  disabled={submit}>
               <View style={sectionContainer}>
                 <SvgXml
                   xml={save}
@@ -101,7 +103,7 @@ class AddGroupScreen extends Component<any, State, Props> {
 
   private onPress() {
     this.setClearState();
-    this.setState({ signup: !this.state.signup });
+    //this.setState({ signup: !this.state.signup });
   }
 
   private onChangeTitle(title: string) {
@@ -115,6 +117,7 @@ class AddGroupScreen extends Component<any, State, Props> {
   private onSubmit() {
     //     e.preventDefault();
     const {  title,  good, status } = this.state
+    
     const { navigation } = this.props
     var $this = this;
     var obj, url, log: string;
@@ -137,9 +140,9 @@ class AddGroupScreen extends Component<any, State, Props> {
       
     // }
     //else 
-    this.setState({ good: true })
+    this.setState({ good: true, submit: true })
     obj = {
-      Admin: "0000e0000-t0t-00t0-t000-00000000000",
+      Admin: store.state.userLogin.uid,
       Title: title,
       Home: navigation.state.params.uid,
       Status: status == GroupStatus.Public ? 1 : 2,
@@ -181,7 +184,7 @@ class AddGroupScreen extends Component<any, State, Props> {
     this.setState({
       appartament: '', title: '', floors: '', porches: '',
       year: '', status: '', colorT: '#000', colorPass: '#000',
-      good: false, signup: false
+      good: false, submit: false
     })
   }
 }

@@ -172,11 +172,6 @@ class AddHomeScreen extends Component<any, State, Props> {
     );
   }
 
-  private onPress() {
-    this.setClearState();
-    this.setState({ signup: !this.state.signup });
-  }
-
   private onChangeAddress(address: string) {
     var badEnter = this.state.badEnter
     var errorText = this.state.errorText

@@ -2,9 +2,7 @@ import * as React from 'react';
 import {
   View, Text, TouchableHighlight,
 } from 'react-native';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Header, styles } from '..';
-import { SvgXml } from 'react-native-svg';
 import { menu } from '../../allSvg'
 
 interface Props { }

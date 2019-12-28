@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, ScrollView, View, Text, TouchableOpacity, TouchableWithoutFeedback,
-  TouchableNativeFeedback,
-  Button, TextInput, Alert
+  StyleSheet, ScrollView, View, Text, TouchableOpacity,
+  TextInput, Alert, Switch, StatusBar
 } from 'react-native';
-import {
-  LearnMoreLinks, Colors, DebugInstructions, ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { Card, Input, CheckBox, Icon } from 'react-native-elements'
 import { SvgXml } from 'react-native-svg';
 import { save, add } from '../../allSvg'
 import { Header } from '..';//, styles 
 import { Dropdown } from 'react-native-material-dropdown';
-import { h, w } from '../../constants'
+import { h, w, brown } from '../../constants'
 import { Category } from '../../enum/Enums'
 import { backArrow } from '../../allSvg'
 import SafeAreaView from 'react-native-safe-area-view';
@@ -21,39 +18,47 @@ import SafeAreaView from 'react-native-safe-area-view';
 
 interface Props { }
 interface State { }
+export interface Advert{
+  title: boolean,
+  text: boolean,
+  category: boolean,
+}
+var arrText: string[] = [];
+var arr:Advert = {  
+  title: false,
+  text: false,
+  category: false,  
+};
+var enterInit: Advert[] = [];
+enterInit.push(arr);
+
 
 class AddAdvertScreen extends Component<any, State, Props> {
   state = {
-    text: '', title: '', floors: '', porches: '',
-    year: '', status: '', colorT: '#000', colorPass: '#000',
-    good: false, signup: false
+    text: '', title: '', category: '', question: '',
+    answer: '', status: '', good: true, passGood: false, submit: false,
+    badEnter: arr, errorText: arrText,checked: false, isMulti: false
 
   }
 
   render() {
     console.log('Props AddAdvertScreen', this.props)
-    const { signup, text, title, floors, porches, year, colorT,
-      colorPass, good, status } = this.state
+    const {  text, title, badEnter, errorText, answer, 
+      good, status, checked } = this.state
     const { navigation } = this.props
-    const { container, fixToText, label, label2, label3, textInput, textInput2,
-      iconButton, inputMultiline, button, buttonContainer, sectionTitle,
-      advertContainer, addPosition } = styles
-    let dataStatus = [{
-      value: Category.Repairs,
-    }, {
-      value: Category.EngineeringWorks,
-    }, {
-      value: Category.Overhaul,
-    }, {
-      value: Category.EnergySaving,
-    }, {
-      value: Category.Owners,
-    }, {
-      value: Category.CommunityInfrastructure,
-    }, {
-      value: Category.Attention,
-    },];
+    const { container, fixToText, label, label2,label4, addPosition, textInput, textInput2,
+      iconButton, inputMultiline, button, buttonContainer, sectionTitle, styleSwitch,inputStyle,
+      error    } = styles
+    let dataStatus = [{ 
+      value: Category.Repairs,  }, {
+      value: Category.EngineeringWorks,}, {
+      value: Category.Overhaul, }, {
+      value: Category.EnergySaving, }, {
+      value: Category.Owners, }, {
+      value: Category.CommunityInfrastructure, }, {
+      value: Category.Attention,  },];
     return (<View>
+      <StatusBar backgroundColor={brown} barStyle="light-content" />
       <Header title='Добавление объявления'
         leftIcon={backArrow}
         onPressLeft={() => {
@@ -68,13 +73,15 @@ class AddAdvertScreen extends Component<any, State, Props> {
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={label}> Заголовок объявления <Text style={{ color: 'red' }}>*</Text></Text>
                 </View>
-                <TextInput
-                  style={inputMultiline}
+                <Input
+                  inputContainerStyle={inputMultiline}
+                  inputStyle={inputStyle}
                   onChangeText={this.onChangeTitle.bind(this)}
                   placeholder='Заголовок..'
                   multiline={true}
                   numberOfLines={1}
                   value={title}
+                  errorMessage={badEnter.title ? 'Поле не заполнено!': ''}
                 />
               </View>
             </View>
@@ -83,14 +90,16 @@ class AddAdvertScreen extends Component<any, State, Props> {
                 <View style={{ flexDirection: 'row' }}>
                   <Text style={label}> Текст объявления <Text style={{ color: 'red' }}>*</Text></Text>
                 </View>
-                <TextInput
-                  style={inputMultiline}
+                <Input
+                  inputContainerStyle={inputMultiline}
+                  inputStyle={inputStyle}
                   onChangeText={this.onChangeText.bind(this)}
                   placeholder='Введите текст..'
                   multiline={true}
                   numberOfLines={5}
                   value={text}
                   textAlignVertical='top'
+                  errorMessage={badEnter.text ? 'Поле не заполнено!': ''}
                 />
               </View>
             </View>
@@ -105,52 +114,30 @@ class AddAdvertScreen extends Component<any, State, Props> {
                   onChangeText={this.onChangeStatus.bind(this)}
                   value={status}
                 />
+                {badEnter.category && <Text style={error}>Поле не заполнено!</Text>}
                 {/* placeholder='Выберите статус..' */}
               </View>
             </View>
           </View>
-
-          <View style={advertContainer}>
-            <View style={fixToText}>
-              <View style={textInput}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={label}> Вопрос <Text style={{ color: 'red' }}>*</Text></Text>
-                </View>
-                <TextInput
-                  style={inputMultiline}
-                  onChangeText={this.onChangeTitle.bind(this)}
-                  placeholder='Введите вопрос..'
-                  multiline={true}
-                  numberOfLines={1}
-                  value={title}
-                />
-              </View>
-            </View>
-            <View style={fixToText}>
-              <View style={textInput}>
-                <View style={{ flexDirection: 'row' }}>
-                  <Text style={label3}> Вариант ответа <Text style={{ color: 'red' }}>*</Text></Text>
-                </View>
-                <TextInput
-                  style={inputMultiline}
-                  onChangeText={this.onChangeText.bind(this)}
-                  placeholder='Введите текст..'
-                  multiline={true}
-                  numberOfLines={1}
-                  value={text}
-                />
-              </View>
-            </View>
-
-            <View style={addPosition}>
-              <TouchableOpacity onPress={this.onSubmit.bind(this)} >
-                  <SvgXml
-                    xml={add}
-                    style={iconButton} fill='green' />
-              </TouchableOpacity>
-              <Text>   Добавить еще один вариант ответа</Text>
-            </View>
+          <View >
+          <TouchableOpacity onPress={() => this.setState({ checked: !checked })}
+          style={addPosition}>
+          <Switch
+          style={styleSwitch}
+          value={checked}
+          onValueChange={() => this.setState({ checked: !checked })}
+          thumbColor='green'
+          ></Switch>
+          <Text style={label4}>Добавить голосование</Text>
+          </TouchableOpacity>
           </View>
+          {/* <CheckBox title='Добавить голосование'
+            checked={checked}
+            onPress={() => this.setState({ checked: !checked })}
+            checkedColor='green'
+            center
+          ></CheckBox> */}
+          {checked && this.onPress()}
 
           <View style={{ alignItems: 'flex-end' }}>
             <View style={button}>
@@ -164,6 +151,7 @@ class AddAdvertScreen extends Component<any, State, Props> {
               </TouchableOpacity>
             </View>
           </View>
+          <View style={{ margin: 30 }}><Text> </Text></View>
         </SafeAreaView>
       </ScrollView>
     </View>
@@ -172,37 +160,117 @@ class AddAdvertScreen extends Component<any, State, Props> {
   }
 
   private onPress() {
-    this.setClearState();
-    this.setState({ signup: !this.state.signup });
+    const {  text, title, category, question, answer, 
+      good, status, checked, isMulti } = this.state
+    const { navigation } = this.props
+    const { container, fixToText, label, label4, textInput, containerStyle,
+      iconButton, inputMultiline, inputStyle,
+      advertContainer, addPosition } = styles
+    return <View>
+      <View style={advertContainer}>
+        <View style={fixToText}>
+          <View style={textInput}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={label}> Вопрос <Text style={{ color: 'red' }}>*</Text></Text>
+            </View>
+            <Input
+              inputContainerStyle={inputMultiline}
+              inputStyle={inputStyle}
+              onChangeText={this.onChangeTitle.bind(this)}
+              placeholder='Введите вопрос..'
+              multiline={true}
+              numberOfLines={1}
+              value={title}
+            />
+          </View>
+        </View>
+        <View style={fixToText}>
+          <View style={textInput}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={label}> Вариант ответа <Text style={{ color: 'red' }}>*</Text></Text>
+            </View>
+            <Input
+              inputContainerStyle={inputMultiline}
+              inputStyle={inputStyle}
+              onChangeText={this.onChangeText.bind(this)}
+              placeholder='Введите текст..'
+              multiline={true}
+              numberOfLines={1}
+              value={text}
+            />
+          </View>
+        </View>
+
+        <TouchableOpacity style={addPosition}
+          onPress={this.onSubmit.bind(this)} >
+          <SvgXml
+            xml={add}
+            style={iconButton} fill='green' />
+          <Text >   Добавить еще один вариант ответа</Text>
+        </TouchableOpacity>
+        <CheckBox title='Многовариантное голосование'
+          checked={isMulti}
+          onPress={() => this.setState({ isMulti: !isMulti })}
+          checkedColor='green'
+          containerStyle={containerStyle}
+        ></CheckBox>
+      </View>
+      <TouchableOpacity style={addPosition}
+        onPress={this.onSubmit.bind(this)} >
+        <SvgXml
+          xml={add}
+          style={iconButton} fill='green' />
+        <Text style={label4}>   Добавить еще одно голосование</Text>
+      </TouchableOpacity>
+    </View>
   }
 
-  private onChangeTitle(title: string) {
-    this.setState({ title });
+  private onChangeTitle(title: string) {    
+    var badEnter = this.state.badEnter
+    badEnter.title = false;
+    this.setState({ title, badEnter });
   }
-  private onChangeText(text: string) {
-    this.setState({ text: text });
+  private onChangeText(text: string) { 
+    var badEnter = this.state.badEnter
+    badEnter.text = false;
+    this.setState({ text, badEnter });
   }
   private onChangeStatus(status: string) {
-    this.setState({ status: status });
+    this.setState({ status });
   }
 
 
   private onSubmit() {
     //     e.preventDefault();
-    const { text, title, floors, porches, year, good, status } = this.state
+    const { text, title, category, question, answer, good, status, badEnter, errorText, } = this.state
     const { navigation } = this.props
     var $this = this;
     var obj, url, log: string;
     //if (signup) {
-    if (!text || !title || !floors ||
-      !porches || !year || !status) {
+      if (!text) {
+        badEnter.text = true;
+        //errorText.text = 'Поле не заполнено!'
+        this.setState({ badEnter, errorText, good: false });
+      }
+      if (!title) {
+        badEnter.title = true;
+        //errorText.title = 'Поле не заполнено!'
+        this.setState({ badEnter, errorText, good: false });
+      }
+        if (!category) {
+          badEnter.category = true;
+          //errorText.category = 'Поле не заполнено!'
+          this.setState({ badEnter, errorText, good: false });
+        }
+    if (!text || !title || !category ||
+      !question || !answer || !status) {
       Alert.alert('Внимание', 'Не все поля заполнены!',
         [{ text: 'OK' }],
         { cancelable: false },
       );
       return;
     }
-
+    
     // }
     //else 
     this.setState({ good: true })
@@ -219,7 +287,7 @@ class AddAdvertScreen extends Component<any, State, Props> {
       LocalGroup: navigation.state.params[0].fk_LocalGroup
     }
     url = 'http://192.168.43.80:5000/api/adverts/create/';
-    log = 'Добавить Обьявление'
+    log = 'Добавить обьявление'
 
     fetch(url, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -251,8 +319,8 @@ class AddAdvertScreen extends Component<any, State, Props> {
   }
   private setClearState() {
     this.setState({
-      text: '', title: '', floors: '', porches: '',
-      year: '', status: '', colorT: '#000', colorPass: '#000',
+      text: '', title: '', category: '', question: '',
+      answer: '', status: '', colorT: '#000', colorPass: '#000',
       good: false, signup: false
     })
   }
@@ -289,8 +357,6 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
     alignContent: 'flex-start',
   },
   flex: {
@@ -326,11 +392,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 16,
   },
+  label4: {
+    marginVertical: 5,
+    fontSize: 17,
+  },
+  inputStyle: {
+    fontSize: 16,
+    paddingVertical:5,
+    paddingHorizontal:10,
+  },
   iconButton: {
     width: 20,
     height: 20,
     marginLeft: 20,
-  },  
+  },
   buttonContainer: {
     backgroundColor: '#15a009',
     height: 40,
@@ -353,9 +428,23 @@ const styles = StyleSheet.create({
   },
   addPosition: {
     flexDirection: 'row',
-    marginBottom: 20,
-    marginRight: 20,  
+    //marginBottom: 20,
+    marginRight: 20,
     alignItems: 'center',
+  },
+  containerStyle: {
+    backgroundColor: '#FFD0AE',
+    borderColor: '#FFD0AE'
+  },
+  styleSwitch:{
+    marginLeft: w*0.1,
+    height: 30
+  },  
+  error: {
+    marginTop: 5,
+    color: 'red',
+    fontSize:12,
+    marginBottom: -10
   },
 })
 export { AddAdvertScreen };
