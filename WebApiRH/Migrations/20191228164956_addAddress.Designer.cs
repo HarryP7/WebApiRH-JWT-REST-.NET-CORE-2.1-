@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiRH.Models;
 
 namespace WebApiRH.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191228164956_addAddress")]
+    partial class addAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,10 +141,6 @@ namespace WebApiRH.Migrations
 
                     b.Property<int>("Appartaments");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EditedAt");
@@ -155,17 +153,13 @@ namespace WebApiRH.Migrations
 
                     b.Property<int>("Floors");
 
-                    b.Property<string>("HomeNumber")
+                    b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Porches");
 
                     b.Property<bool>("Removed");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("YearCommissioning");
 
@@ -260,9 +254,6 @@ namespace WebApiRH.Migrations
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EditedAt");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Fk_Avatar");
 

@@ -40,8 +40,13 @@ namespace WebApiRH.Controllers
             model.Role = (int)Role.user;
             try
             {
-                userService.Create((User)model, model.Password);
-                return Ok();
+                var user = userService.Create((User)model, model.Password);
+                var tokenString = GetToken(user);
+                return Ok(new
+                {
+                    token = tokenString,
+                    userLogin = user
+                });
             }
             catch (AppException e)
             {
@@ -58,6 +63,7 @@ namespace WebApiRH.Controllers
                 });
             }
         }
+
         [AllowAnonymous]
         [HttpPost("signin")]
         public IActionResult Authenticate([FromBody] AuthUserViewModel model)
@@ -69,7 +75,52 @@ namespace WebApiRH.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Логин или пароль не валидны" });
+                       
+            var tokenString = GetToken(user);
 
+            return Ok(new
+            {
+                token = tokenString,
+                userLogin = user
+            });
+        }
+
+        // GET api/auth/address
+        [HttpGet("address")]
+        public IActionResult Home([FromQuery] String Uid, [FromQuery] String Fk_Home, [FromQuery] int Appartment)
+        {
+            try
+            {
+                var user = userService.Get(Uid);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                if (Fk_Home == null)
+                {
+                    return BadRequest();
+                }
+                if (Appartment == 0)
+                {
+                    return BadRequest();
+                }
+                userService.Update(user, Fk_Home, Appartment);
+                return Ok(new
+                {
+                    userLogin = user
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
+
+        private string GetToken(User user)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("Config:SecretKey");
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -84,12 +135,7 @@ namespace WebApiRH.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-
-            return Ok(new
-            {
-                token = tokenString,
-                userLogin = user
-            });
+            return tokenString;
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebApiRH.Models;
 using WebApiRH.Models.Services;
+using Microsoft.OpenApi.Models;
 
 namespace WebApiRH
 {
@@ -32,6 +33,12 @@ namespace WebApiRH
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(con));
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Регистрация генератора Swagger, определяем 1 или более документов Swagger
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rule your home", Version = "v1" });
+            });
 
             //конфигурирование JWT-аутендификации
             var key = Encoding.ASCII.GetBytes("Config:SecretKey");
@@ -71,6 +78,17 @@ namespace WebApiRH
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Включить промежуточное ПО для обслуживания сгенерированного Swagger в качестве конечной точки JSON
+            app.UseSwagger();
+
+            // Включение промежуточного программного обеспечения для обслуживания swagger-ui 
+            // (HTML, JS, CSS и т. Д.), указание конечной точки JSON Swagger.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rule your home API V1");
+                
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

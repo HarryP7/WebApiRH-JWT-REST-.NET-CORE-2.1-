@@ -10,6 +10,7 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProfileController : ControllerBase
@@ -21,21 +22,20 @@ namespace WebApiRH.Controllers
         }
 
         // GET api/profile
-        [HttpGet]
-        public ActionResult<IEnumerable<Home>> Get()
+        [HttpGet("all")]
+        public ActionResult<IEnumerable<User>> Get()
         {
-            return db.Home.Include(p => p.ImageUrl).Include(p => p.Admin).Include(p => p.LocalGroups).Include(p => p.Tenants).ToList();
+            return db.User.Include(p => p.Avatar).ToList();
         }
 
-        [Authorize]
-        // POST api/profile
-        [HttpPost("my")]
-        public IActionResult MyHome([FromBody] MyHomeModel m)
+        // POST api/profile?Uid={Uid}
+        [HttpGet]
+        public IActionResult Profile([FromQuery] String Uid)
         {            
-            Home home = db.Home.Include(p => p.ImageUrl).Include(p => p.Admin).Include(p => p.LocalGroups).Include(p => p.Tenants).FirstOrDefault(x => x.Uid == m.Uid);
-            if (home == null)
+            User user = db.User.Include(p => p.Avatar).Include(p => p.MyGroups).FirstOrDefault(x => x.Uid == Uid);
+            if (user == null)
                 return NotFound();
-            return new ObjectResult(home);
+            return new ObjectResult(user);
         }
                 
         // PUT api/profile/5

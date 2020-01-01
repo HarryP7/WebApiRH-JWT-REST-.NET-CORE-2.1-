@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiRH.Models;
@@ -9,10 +10,14 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdvertsController : Controller
     {
+
+        const string admin = "1";
+
         AppDbContext db;
         public AdvertsController(AppDbContext db)
         {
@@ -21,21 +26,21 @@ namespace WebApiRH.Controllers
 
         // GET api/adverts
         [HttpGet]
-        public ActionResult<IEnumerable<Advert>> Get()
+        public IEnumerable<Advert> Get([FromQuery] String Fk_Group)
         {
-            return db.Advert.Include(p => p.Image).Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).ToList();
+            return db.Advert.ToList().Where(x => x.Fk_LocalGroup == Fk_Group);
         }
 
-        // GET api/adverts/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(string uid)
+        // GET api/adverts/view?Uid={Uid}
+        [HttpGet("view")]
+        public IActionResult Advert([FromQuery] String Uid)
         {
-            Advert adv = db.Advert.Include(p => p.Image).Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == uid);
+            Advert adv = db.Advert.Include(p => p.Image).Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
             if (adv == null)
                 return NotFound();
             return new ObjectResult(adv);
         }
-
+        [Authorize(Roles = admin)]
         // POST api/adverts
         [HttpPost("create")]
         public IActionResult Create([FromBody] AdvertCreateModel model)

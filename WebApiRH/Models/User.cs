@@ -20,8 +20,8 @@ namespace WebApiRH.Models
         [Required]
         [Column(TypeName = "nvarchar(30)")]
         public String Login { get; set; }
-        //[Column(TypeName = "varchar(50)")]
-        //public String Email { get; set; }
+        [Display(Name = "Email"), Column(TypeName = "varchar(50)")]
+        public String Email { get; set; }
         [Display(Name = "Телефон"), Column(TypeName = "varchar(15)")]
         public String Phone { get; set; }
         [Display(Name = "Аватар"), ForeignKey(nameof(Avatar))]
@@ -31,6 +31,8 @@ namespace WebApiRH.Models
         public int Fk_Role { get; set; }
         [Display(Name = "Дом"), ForeignKey(nameof(Home))]
         public String Fk_Home { get; set; }
+        [Column(TypeName = "Nvarchar(MAX)")]
+        public String Address { get; set; }
         [JsonIgnore]
         public byte[] PasswordHash { get; set; }
         [JsonIgnore]

@@ -22,7 +22,7 @@ namespace WebApiRH.Models.Services
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = Get(u => u.Login == login);
+            var user = context.User.Include(p => p.Avatar).FirstOrDefault(x => x.Login == login);
 
             // check if username exists and password is correct
             if (user == null || !VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
@@ -52,9 +52,9 @@ namespace WebApiRH.Models.Services
 
             return user;
         }
-        public User Get(String id)
+        public User Get(String Uid)
         {
-            try { return context.User.Where(u => u.Uid == id).Single(); }
+            try { return context.User.Where(u => u.Uid == Uid).Single(); }
             catch { return null; }
         }
         public User Get(Func<User, bool> predicate)
@@ -62,8 +62,18 @@ namespace WebApiRH.Models.Services
             try { return context.User.Where(predicate).Single(); }
             catch { return null; }
         }
-
-        public void Update(User user, string password = null)
+        public void Update(User user, String Fk_Home, int Appartment)
+        {
+            if (!context.User.Any(x => x.Uid == user.Uid))
+            {
+                throw new AppException("Пользователь не найден");
+            }
+            user.Fk_Home = Fk_Home;
+            user.Appartament = Appartment;
+            context.Update(user);
+            context.SaveChanges();
+        }
+        public void UpdateAuth(User user, string password = null)
         {
             throw new NotImplementedException();
         }

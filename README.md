@@ -2,7 +2,7 @@
 ## JWT	[![Build Status](https://secure.travis-ci.org/auth0/node-jsonwebtoken.svg?branch=master)](http://travis-ci.org/auth0/node-jsonwebtoken) [![Dependency Status](https://david-dm.org/auth0/node-jsonwebtoken.svg)](https://david-dm.org/auth0/node-jsonwebtoken)
 ## REST  [![Build status](https://ci.appveyor.com/api/projects/status/5vdwwducje0miayf?svg=true)](https://ci.appveyor.com/project/hallem/restsharp) [![Join the chat at https://gitter.im/RestSharp/RestSharp](https://badges.gitter.im/RestSharp/RestSharp.svg)](https://gitter.im/RestSharp/RestSharp?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ###Клиент React Native TypeScript
-Находится здесь -> [ClientReactNativeTS](https://github.com/HarryP7/mobileClient_React-Native-TS-Project_RuleYourHome.git)
+Находится в папке [ClientReactNativeApp](https://github.com/HarryP7/WebApiRH-JWT-REST_.NET-CORE_2.1/tree/master/WebApiRH/ClientReactNativeApp)
 
 -----------------------
 ### Инструкция по развертыванию сервера .NET Core 2.1:

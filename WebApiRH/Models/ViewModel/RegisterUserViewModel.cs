@@ -11,8 +11,8 @@ namespace WebApiRH.Models.ViewModel
 
         [Required(ErrorMessage = "Введите Login")]
         public String Login { get; set; }
-        //[Required(ErrorMessage = "Не указан Адрес")]
-        //public String Fk_Home { get; set; }
+        [Required(ErrorMessage = "Не указан Email")]
+        public String Email { get; set; }
         [Required(ErrorMessage = "Введите имя пользователя"), Display(Name = "Имя")]
         public string FullName { get; set; }
         [Required(ErrorMessage = "Не указан пароль")]
@@ -27,7 +27,7 @@ namespace WebApiRH.Models.ViewModel
                 Uid = Guid.NewGuid().ToString("D"),
                 Login = m.Login,
                 Fk_Gender = 0,
-                //Fk_Home = m.Fk_Home,
+                Email = m.Email,
                 Appartament = 0,
                 FullName = m.FullName,
                 Fk_Role = m.Role,
