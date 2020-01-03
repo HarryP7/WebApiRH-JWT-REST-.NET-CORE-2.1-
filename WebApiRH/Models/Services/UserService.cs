@@ -62,7 +62,7 @@ namespace WebApiRH.Models.Services
             try { return context.User.Where(predicate).Single(); }
             catch { return null; }
         }
-        public void Update(User user, String Fk_Home, int Appartment)
+        public void Update(User user, String Fk_Home, int Appartment, String Address)
         {
             if (!context.User.Any(x => x.Uid == user.Uid))
             {
@@ -70,6 +70,7 @@ namespace WebApiRH.Models.Services
             }
             user.Fk_Home = Fk_Home;
             user.Appartament = Appartment;
+            user.Address = Address;
             context.Update(user);
             context.SaveChanges();
         }

@@ -13,7 +13,7 @@ namespace WebApiRH.Models.Services
         User Get(String id);
         User Get(Func<User, bool> predicate);
         User Create(User user, string password);
-        void Update(User user, String Fk_Home, int Appartment);
+        void Update(User user, String Fk_Home, int Appartment, String Address);
         void UpdateAuth(User user, string password = null);
         void Delete(String id);
     }
