@@ -12,8 +12,8 @@ namespace WebApiRH.Models
     {
         [Key]
         public String Uid { get; set; }
-        [Display(Name = "Управляющий"), ForeignKey(nameof(Admin))]
-        public String FK_Admin { get; set; }
+        [Display(Name = "Управляющий"), ForeignKey(nameof(Manager))]
+        public String Fk_Manager { get; set; }
         [Display(Name = "Аватар Url"), ForeignKey(nameof(ImageUrl))]
         public String Fk_ImageUrl { get; set; }
         [Required]
@@ -57,7 +57,7 @@ namespace WebApiRH.Models
         [InverseProperty(nameof(LocalGroup.Home))]
         public virtual ICollection<LocalGroup> LocalGroups { get; set; } = new HashSet<LocalGroup>();
 
-        public virtual User Admin { get; set; }
+        public virtual User Manager { get; set; }
         public virtual Images ImageUrl { get; set; }
         //public virtual HomeStatus Status { get; set; }
     }
