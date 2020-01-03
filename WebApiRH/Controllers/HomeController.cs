@@ -75,21 +75,29 @@ namespace WebApiRH.Controllers
             return result;
         }
 
-        // GET api/home?Uid={Uid}
+        // GET api/home?Fk_Home={Uid}
         [HttpGet]
-        public IActionResult Home([FromQuery] String Uid)
+        public IActionResult Home([FromQuery] String Fk_Home)
         {            
-            Home home = db.Home.Include(p => p.ImageUrl).Include(p => p.Admin).Include(p => p.LocalGroups).Include(p => p.Tenants).FirstOrDefault(x => x.Uid == Uid);
+            Home home = db.Home.Include(p => p.ImageUrl).Include(p => p.Manager).Include(p => p.LocalGroups).Include(p => p.Tenants).FirstOrDefault(x => x.Uid == Fk_Home);
             if (home == null)
                 return NotFound();
-            return new ObjectResult(home);
-        }
+            IEnumerable<User> approvedTantains = home.Tenants.Where(p => p.IsApprovedHome == true).ToList();
+            IEnumerable<User> newTantns = home.Tenants.Where(p => p.IsApprovedHome == false).ToList();
+            
+            return Ok(new
+            {
+                homeData = home,
+                tantains = approvedTantains,
+                newTantains = newTantns
+            });
+        }                
 
         // POST api/home
         [HttpPost("create")]
         public IActionResult Create([FromBody] HomeCreateModel model)
         {
-            if(model.Fk_Role == 0 || model.Fk_Role != 1)
+            if(model.Fk_Role == (int)Role.admin || model.Fk_Role != (int)Role.moderator)
             {
                 return BadRequest(new
                 {
@@ -98,9 +106,6 @@ namespace WebApiRH.Controllers
             }
             try
             {
-                //var Home = (HomeCreateModel)model;
-                //Home.Fk_user = int.Parse(User.Identity.Name);
-                //Home.Service.DatePlace = DateTime.Now;
 
                 db.Home.Add((Home)model);
                 db.SaveChanges();
@@ -116,15 +121,15 @@ namespace WebApiRH.Controllers
         }
 
         // PUT api/groups/5
-        [HttpPut]
-        public void Put([FromQuery] String Uid, [FromBody] HomeCreateModel model)
-        {
-        }
+        //[HttpPut]
+        //public void Put([FromQuery] String Uid, [FromBody] HomeCreateModel model)
+        //{
+        //}
 
         // DELETE api/groups/5
-        [HttpDelete]
-        public void Delete([FromQuery] String Uid)
-        {
-        }
+        //[HttpDelete]
+        //public void Delete([FromQuery] String Uid)
+        //{
+        //}
     }
 }
