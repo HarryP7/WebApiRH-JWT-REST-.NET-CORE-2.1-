@@ -33,6 +33,7 @@ namespace WebApiRH.Models
         public String Fk_Home { get; set; }
         [Column(TypeName = "Nvarchar(MAX)")]
         public String Address { get; set; }
+        public bool IsApprovedHome { get; set; }
         [JsonIgnore]
         public byte[] PasswordHash { get; set; }
         [JsonIgnore]
@@ -46,7 +47,7 @@ namespace WebApiRH.Models
         [InverseProperty(nameof(Participant.User))]
         public virtual ICollection<Participant> MyGroups { get; set; } = new HashSet<Participant>();
         [JsonIgnore]
-        [InverseProperty(nameof(LocalGroup.Admin))]
+        [InverseProperty(nameof(LocalGroup.Supervisor))]
         public virtual ICollection<LocalGroup> ManagedGroups { get; set; } = new HashSet<LocalGroup>();
 
         //public virtual Gender Gender { get; set; }
