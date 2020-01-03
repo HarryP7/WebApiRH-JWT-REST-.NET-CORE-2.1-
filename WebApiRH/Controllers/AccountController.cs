@@ -85,26 +85,26 @@ namespace WebApiRH.Controllers
             });
         }
 
-        // GET api/auth/address
-        [HttpGet("address")]
-        public IActionResult Home([FromQuery] String Uid, [FromQuery] String Fk_Home, [FromQuery] int Appartment)
+        // POST api/auth/address
+        [HttpPost("address")]
+        public IActionResult AddAdress([FromBody] AddAdressModel model)
         {
             try
             {
-                var user = userService.Get(Uid);
+                var user = userService.Get(model.Fk_User);
                 if (user == null)
                 {
                     return BadRequest();
                 }
-                if (Fk_Home == null)
+                if (model.Fk_Home == null)
                 {
                     return BadRequest();
                 }
-                if (Appartment == 0)
+                if (model.Appartment == 0)
                 {
                     return BadRequest();
                 }
-                userService.Update(user, Fk_Home, Appartment);
+                userService.Update(user, model.Fk_Home, model.Appartment, model.Address);
                 return Ok(new
                 {
                     userLogin = user
@@ -130,7 +130,7 @@ namespace WebApiRH.Controllers
                     new Claim(ClaimTypes.Name, user.Uid),
                     new Claim(ClaimTypes.Role, user.Fk_Role.ToString()),
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
