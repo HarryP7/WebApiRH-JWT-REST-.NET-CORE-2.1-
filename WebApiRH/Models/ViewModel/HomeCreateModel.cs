@@ -4,7 +4,7 @@ namespace WebApiRH.Models.ViewModel
 {
     public class HomeCreateModel
     {
-        public String Admin { get; set; }
+        public String Manager { get; set; }
         public String City { get; set; }
         public String Street { get; set; }
         public String HomeNumber { get; set; }
@@ -21,7 +21,7 @@ namespace WebApiRH.Models.ViewModel
             return new Home()
             {
                 Uid = Guid.NewGuid().ToString("D"),
-                FK_Admin = m.Admin,
+                Fk_Manager = m.Manager,
                 Fk_ImageUrl = m.Image,
                 City = m.City,
                 Street = m.Street,
