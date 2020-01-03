@@ -13,8 +13,8 @@ namespace WebApiRH.Models
         [Display(Name = "Название группы"), Column(TypeName = "nvarchar(200)")]
         public string Title { get; set; }
         [Required]
-        [Display(Name = "Управляющий"), ForeignKey(nameof(Admin))]
-        public String Fk_Admin { get; set; }
+        [Display(Name = "Руководитель группы"), ForeignKey(nameof(Supervisor))]
+        public String Fk_Supervisor { get; set; }
         [Display(Name = "Аватар"), ForeignKey(nameof(Image))]
         public String Fk_Image { get; set; }
         [Display(Name = "Статус")]
@@ -33,7 +33,7 @@ namespace WebApiRH.Models
         [InverseProperty(nameof(GroupChat.LocalGroup))]
         public virtual ICollection<GroupChat> Messages { get; set; } = new HashSet<GroupChat>();
 
-        public virtual User Admin { get; set; }
+        public virtual User Supervisor { get; set; }
         public virtual Images Image { get; set; }
         //public virtual Access Status { get; set; }
         [JsonIgnore]
