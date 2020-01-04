@@ -10,7 +10,7 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProfileController : ControllerBase
@@ -28,7 +28,7 @@ namespace WebApiRH.Controllers
             return db.User.Include(p => p.Avatar).ToList();
         }
 
-        // POST api/profile?Uid={Uid}
+        // GET api/profile?Uid={Uid}
         [HttpGet]
         public IActionResult Profile([FromQuery] String Uid)
         {            
@@ -37,20 +37,51 @@ namespace WebApiRH.Controllers
                 return NotFound();
             return new ObjectResult(user);
         }
-                
-        // PUT api/profile/5
-        [HttpPut("{id}")]
-        public IActionResult Put(String Uid, [FromBody] HomeCreateModel model)
+
+        // GET api/profile/tentants?Fk_Home={Fk_Home}
+        [HttpGet("tentants")]
+        public IActionResult Tentants([FromQuery] String Fk_Home)
+        {
+            var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == true).ToList();
+            var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == false).ToList();            
+            return Ok(new
+            {
+                tantains = approvedTantains,
+                newTantains = newTantns
+            });
+        }
+
+        // GET api/profile/search?Name={Name}
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<User>> GetSearch([FromQuery] String Name)
+        {
+            var users = db.User.Where(p => p.FullName.Contains(Name)).ToList();
+            if (users == null)
+                return NotFound();
+            return users;
+        }
+
+        //PUT api/profile/approve?Uid={Uid}
+        [HttpPut("approve")]
+        public IActionResult Approve([FromQuery] String Uid)
         {
             try
             {
-                //var Home = (HomeCreateModel)model;
-                //Home.Fk_user = int.Parse(User.Identity.Name);
-                //Home.Service.DatePlace = DateTime.Now;
-
-                db.Home.Add((Home)model);
+                var user = db.User.FirstOrDefault(x => x.Uid == Uid);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                user.IsApprovedHome = true;
+                db.User.Update(user);
                 db.SaveChanges();
-                return Ok();
+                var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == true).ToList();
+                var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == false).ToList();
+                return Ok(new
+                {
+                    tantains = approvedTantains,
+                    newTantains = newTantns
+                });
             }
             catch (Exception e)
             {
@@ -61,10 +92,29 @@ namespace WebApiRH.Controllers
             }
         }
 
+        // PUT api/profile/5
+        //[HttpPut("{id}")]
+        //public IActionResult Put([FromQuery] String Uid, [FromBody] HomeCreateModel model)
+        //{
+        //    try
+        //    {
+        //        db.Home.Add((Home)model);
+        //        db.SaveChanges();
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            message = "На сервере произошла ошибка, попробуйте позже"
+        //        });
+        //    }
+        //}
+
         // DELETE api/profile/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //    [HttpDelete("{id}")]
+        //    public void Delete(int id)
+        //    {
+        //    }
     }
 }
