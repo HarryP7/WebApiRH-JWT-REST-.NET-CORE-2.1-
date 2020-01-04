@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiRH.Models;
 
 namespace WebApiRH.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200101204921_add_Field_IsApprovedHome")]
+    partial class add_Field_IsApprovedHome
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,9 +149,9 @@ namespace WebApiRH.Migrations
 
                     b.Property<DateTime>("EditedAt");
 
-                    b.Property<string>("Fk_ImageUrl");
+                    b.Property<string>("FK_Admin");
 
-                    b.Property<string>("Fk_Manager");
+                    b.Property<string>("Fk_ImageUrl");
 
                     b.Property<int>("Fk_Status");
 
@@ -171,9 +173,9 @@ namespace WebApiRH.Migrations
 
                     b.HasKey("Uid");
 
-                    b.HasIndex("Fk_ImageUrl");
+                    b.HasIndex("FK_Admin");
 
-                    b.HasIndex("Fk_Manager");
+                    b.HasIndex("Fk_ImageUrl");
 
                     b.ToTable("Home");
                 });
@@ -204,14 +206,14 @@ namespace WebApiRH.Migrations
 
                     b.Property<DateTime>("EditedAt");
 
+                    b.Property<string>("Fk_Admin")
+                        .IsRequired();
+
                     b.Property<string>("Fk_Home");
 
                     b.Property<string>("Fk_Image");
 
                     b.Property<int>("Fk_Status");
-
-                    b.Property<string>("Fk_Supervisor")
-                        .IsRequired();
 
                     b.Property<bool>("Removed");
 
@@ -220,11 +222,11 @@ namespace WebApiRH.Migrations
 
                     b.HasKey("Uid");
 
+                    b.HasIndex("Fk_Admin");
+
                     b.HasIndex("Fk_Home");
 
                     b.HasIndex("Fk_Image");
-
-                    b.HasIndex("Fk_Supervisor");
 
                     b.ToTable("LocalGroup");
                 });
@@ -371,17 +373,22 @@ namespace WebApiRH.Migrations
 
             modelBuilder.Entity("WebApiRH.Models.Home", b =>
                 {
+                    b.HasOne("WebApiRH.Models.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("FK_Admin");
+
                     b.HasOne("WebApiRH.Models.Images", "ImageUrl")
                         .WithMany()
                         .HasForeignKey("Fk_ImageUrl");
-
-                    b.HasOne("WebApiRH.Models.User", "Manager")
-                        .WithMany()
-                        .HasForeignKey("Fk_Manager");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.LocalGroup", b =>
                 {
+                    b.HasOne("WebApiRH.Models.User", "Admin")
+                        .WithMany("ManagedGroups")
+                        .HasForeignKey("Fk_Admin")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("WebApiRH.Models.Home", "Home")
                         .WithMany("LocalGroups")
                         .HasForeignKey("Fk_Home");
@@ -389,11 +396,6 @@ namespace WebApiRH.Migrations
                     b.HasOne("WebApiRH.Models.Images", "Image")
                         .WithMany()
                         .HasForeignKey("Fk_Image");
-
-                    b.HasOne("WebApiRH.Models.User", "Supervisor")
-                        .WithMany("ManagedGroups")
-                        .HasForeignKey("Fk_Supervisor")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Participant", b =>
