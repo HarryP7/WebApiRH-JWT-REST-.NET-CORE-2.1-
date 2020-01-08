@@ -25,7 +25,7 @@ namespace WebApiRH.Controllers
         [HttpGet("all")]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return db.User.Include(p => p.Avatar).ToList();
+            return db.User.Include(p => p.Avatar).OrderByDescending(p => p.CreatedAt).ToList();
         }
 
         // GET api/profile?Uid={Uid}
@@ -42,8 +42,8 @@ namespace WebApiRH.Controllers
         [HttpGet("tentants")]
         public IActionResult Tentants([FromQuery] String Fk_Home)
         {
-            var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == true).ToList();
-            var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == false).ToList();            
+            var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
+            var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();            
             return Ok(new
             {
                 tantains = approvedTantains,
@@ -55,7 +55,7 @@ namespace WebApiRH.Controllers
         [HttpGet("search")]
         public ActionResult<IEnumerable<User>> GetSearch([FromQuery] String Name)
         {
-            var users = db.User.Where(p => p.FullName.Contains(Name)).ToList();
+            var users = db.User.Where(p => p.FullName.Contains(Name)).OrderByDescending(p => p.CreatedAt).ToList();
             if (users == null)
                 return NotFound();
             return users;
@@ -75,8 +75,8 @@ namespace WebApiRH.Controllers
                 user.IsApprovedHome = true;
                 db.User.Update(user);
                 db.SaveChanges();
-                var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == true).ToList();
-                var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == false).ToList();
+                var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
+                var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();
                 return Ok(new
                 {
                     tantains = approvedTantains,

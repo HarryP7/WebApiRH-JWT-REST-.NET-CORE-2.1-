@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WebApiRH.Models.ViewModel
 {
@@ -9,6 +10,7 @@ namespace WebApiRH.Models.ViewModel
         public String Text { get; set; }
         public int Category { get; set; }
         public String LocalGroup { get; set; }
+        public ICollection<VotingCreateModel> Voting { get; set; }
 
         public static explicit operator Advert(AdvertCreateModel m)
         {

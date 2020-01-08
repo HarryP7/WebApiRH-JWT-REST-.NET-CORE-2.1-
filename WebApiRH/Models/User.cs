@@ -50,6 +50,9 @@ namespace WebApiRH.Models
         [InverseProperty(nameof(LocalGroup.Supervisor))]
         public virtual ICollection<LocalGroup> ManagedGroups { get; set; } = new HashSet<LocalGroup>();
 
+        [InverseProperty(nameof(Voted.User))]
+        public virtual ICollection<Voted> Voteds { get; set; } = new HashSet<Voted>();
+
         //public virtual Gender Gender { get; set; }
         public virtual Images Avatar { get; set; }
         //public virtual Role Role { get; set; }

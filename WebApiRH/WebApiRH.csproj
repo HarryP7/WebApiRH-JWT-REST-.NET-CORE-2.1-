@@ -16,6 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Appartament.cs" />
+    <Compile Remove="Models\Dialogue.cs" />
+    <Compile Remove="Models\Family.cs" />
+    <Compile Remove="Models\Location.cs" />
+    <Compile Remove="Models\Message.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

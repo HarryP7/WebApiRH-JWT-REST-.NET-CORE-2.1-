@@ -15,7 +15,6 @@ namespace WebApiRH.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        const string admin = "1";
         AppDbContext db;
         public HomeController(AppDbContext db)
         {
@@ -27,49 +26,50 @@ namespace WebApiRH.Controllers
         [HttpGet("all")]
         public ActionResult<IEnumerable<Home>> Get()
         {
-            return db.Home.Include(p => p.ImageUrl).ToList();
+            return db.Home.Include(p => p.ImageUrl).OrderByDescending(p => p.CreatedAt).ToList();
         }
 
         // POST api/home/search
         [HttpPost("search")]
         public ActionResult<IEnumerable<Home>> Search([FromBody] HomeSearchModel model)
         {
-            ActionResult<IEnumerable< Home>> result = db.Home.Include(p => p.ImageUrl).ToList();
+            ActionResult<IEnumerable< Home>> result = db.Home.Include(p => p.ImageUrl).OrderByDescending(p => p.CreatedAt).ToList();
 
             //Поиск когда заданы все 3 параметра
             if (model.City != "" && model.Street != "" && model.HomeNumber != "")
             {
-                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.Street == model.Street && c.HomeNumber.Contains(model.HomeNumber)).ToList();
+                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.Street == model.Street && c.HomeNumber.Contains(model.HomeNumber)).
+                    OrderByDescending(p => p.CreatedAt).ToList();
             }
             //иначе поиск по городу и улице
             else if (model.City != "" && model.Street != "")
             {
-                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.Street == model.Street).ToList();
+                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.Street == model.Street).OrderByDescending(p => p.CreatedAt).ToList();
             }
             //иначе поиск по городу и номеру дома
             else if (model.City != "" && model.HomeNumber != "")
             {
-                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.HomeNumber.Contains(model.HomeNumber)).ToList();
+                result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City && c.HomeNumber.Contains(model.HomeNumber)).OrderByDescending(p => p.CreatedAt).ToList();
             }
             //иначе поиск по улице и номеру дома
             else if (model.Street != "" && model.HomeNumber != "")
             {
-                result = db.Home.Include(p => p.ImageUrl).Where(c => c.Street == model.Street && c.HomeNumber.Contains(model.HomeNumber)).ToList();
+                result = db.Home.Include(p => p.ImageUrl).Where(c => c.Street == model.Street && c.HomeNumber.Contains(model.HomeNumber)).OrderByDescending(p => p.CreatedAt).ToList();
             }
             //иначе поиск по одному параметру
             else
             {
                 if (model.City != "")
                 {
-                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City).ToList();
+                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.City == model.City).OrderByDescending(p => p.CreatedAt).ToList();
                 }
                 else if (model.Street != "")
                 {
-                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.Street == model.Street).ToList();
+                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.Street == model.Street).OrderByDescending(p => p.CreatedAt).ToList();
                 }
                 else if (model.HomeNumber != "")
                 {
-                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.HomeNumber.Contains(model.HomeNumber)).ToList();
+                    result = db.Home.Include(p => p.ImageUrl).Where(c => c.HomeNumber.Contains(model.HomeNumber)).OrderByDescending(p => p.CreatedAt).ToList();
                 }
             }
             return result;
@@ -82,8 +82,8 @@ namespace WebApiRH.Controllers
             Home home = db.Home.Include(p => p.ImageUrl).Include(p => p.Manager).Include(p => p.LocalGroups).Include(p => p.Tenants).FirstOrDefault(x => x.Uid == Fk_Home);
             if (home == null)
                 return NotFound();
-            IEnumerable<User> approvedTantains = home.Tenants.Where(p => p.IsApprovedHome == true).ToList();
-            IEnumerable<User> newTantns = home.Tenants.Where(p => p.IsApprovedHome == false).ToList();
+            IEnumerable<User> approvedTantains = home.Tenants.Where(p => p.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
+            IEnumerable<User> newTantns = home.Tenants.Where(p => p.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();
             
             return Ok(new
             {
@@ -106,10 +106,16 @@ namespace WebApiRH.Controllers
             }
             try
             {
-
-                db.Home.Add((Home)model);
+                var home = (Home)model;
+                db.Home.Add(home);
                 db.SaveChanges();
-                return Ok();
+                var user = db.User.FirstOrDefault(x => x.Uid == model.Manager);
+                user.Fk_Home = home.Uid;
+                user.IsApprovedHome = true;
+                user.Address = "г. " + model.City + ", " + model.Street + ", д. " + model.HomeNumber;
+                db.User.Update(user);
+                db.SaveChanges();
+                return Ok(home);
             }
             catch (Exception e)
             {

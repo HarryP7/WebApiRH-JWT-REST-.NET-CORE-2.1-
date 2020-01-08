@@ -10,14 +10,11 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdvertsController : Controller
     {
-
-        const string admin = "1";
-
         AppDbContext db;
         public AdvertsController(AppDbContext db)
         {
@@ -28,32 +25,90 @@ namespace WebApiRH.Controllers
         [HttpGet]
         public IEnumerable<Advert> Get([FromQuery] String Fk_Group)
         {
-            return db.Advert.ToList().Where(x => x.Fk_LocalGroup == Fk_Group);
+            return db.Advert.Include(p => p.Votings).Where(x => x.Fk_LocalGroup == Fk_Group).OrderByDescending(p => p.CreatedAt).ToList();
         }
 
-        // GET api/adverts/view?Uid={Uid}
-        [HttpGet("view")]
+        // GET api/adverts/profile?Uid={Uid}
+        [HttpGet("profile")]
         public IActionResult Advert([FromQuery] String Uid)
         {
-            Advert adv = db.Advert.Include(p => p.Image).Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
+            var adv = db.Advert.Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
+            var vot = db.Voting.Include(p => p.Options).Include(p => p.Voteds).Where(x => x.Fk_Advert == adv.Uid).OrderByDescending(p => p.CreatedAt).ToList();
             if (adv == null)
                 return NotFound();
-            return new ObjectResult(adv);
+            return Ok(new
+            {
+                advert = adv,
+                voting = vot
+            });
         }
-        [Authorize(Roles = admin)]
+
         // POST api/adverts
         [HttpPost("create")]
         public IActionResult Create([FromBody] AdvertCreateModel model)
         {
             try
             {
-                //var Advert = (Advert)model;
-                //Advert.Fk_user = int.Parse(User.Identity.Name);
-                //Advert.Service.DatePlace = DateTime.Now;
+                if (model == null)
+                    return BadRequest();
 
-                db.Advert.Add((Advert)model);
+                var advert = (Advert)model;
+                db.Advert.Add(advert);
                 db.SaveChanges();
-                return Ok();
+
+                foreach (var elV in model.Voting)
+                {
+                    var voting = (Voting)elV;
+                    voting.Fk_Advert = advert.Uid;
+                    db.Voting.Add(voting);
+                    db.SaveChanges();
+
+                    //
+                    foreach (var elO in elV.Options)
+                    {
+                        var option = (Answer)elO;
+                        option.Fk_Voting = voting.Uid;
+                        db.Answer.Add(option);
+                        db.SaveChanges();
+                    }
+                }
+
+                return Ok(advert);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
+
+        //PUT api/adverts/vote
+        [HttpPut("vote")]
+        public IActionResult Put([FromBody] VotedModel model, [FromQuery] String Fk_Option)
+        {
+            var option = db.Answer.FirstOrDefault(x => x.Uid == Fk_Option);
+            var voting = db.Voting.FirstOrDefault(x => x.Uid == model.Fk_Voting);
+            if (option == null || voting == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                option.Count += 1;
+                db.Answer.Update(option);
+                db.SaveChanges();
+
+                voting.TotalVotes += 1;
+                voting.yourOption = model.yourOption;
+                db.Voting.Update(voting);
+                db.SaveChanges();
+
+                var voted = (Voted)model;
+                db.Voted.Add(voted);
+                db.SaveChanges();
+                return Ok(voting);
             }
             catch (Exception e)
             {
@@ -65,15 +120,15 @@ namespace WebApiRH.Controllers
         }
 
         // PUT api/adverts/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE api/adverts/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,7 +15,7 @@ namespace WebApiRH.Models
         public int Count { get; set; }
         [Display(Name = "Локальная группа"), ForeignKey(nameof(Voting))]
         public String Fk_Voting { get; set; }
-
+        [JsonIgnore]
         public virtual Voting Voting { get; set; }
     }
 }

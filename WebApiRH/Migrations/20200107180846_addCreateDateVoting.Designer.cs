@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiRH.Models;
 
 namespace WebApiRH.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200107180846_addCreateDateVoting")]
+    partial class addCreateDateVoting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,26 +302,6 @@ namespace WebApiRH.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("WebApiRH.Models.Voted", b =>
-                {
-                    b.Property<string>("Uid")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Fk_User")
-                        .IsRequired();
-
-                    b.Property<string>("Fk_Voting")
-                        .IsRequired();
-
-                    b.HasKey("Uid");
-
-                    b.HasIndex("Fk_User");
-
-                    b.HasIndex("Fk_Voting");
-
-                    b.ToTable("Voted");
-                });
-
             modelBuilder.Entity("WebApiRH.Models.Voting", b =>
                 {
                     b.Property<string>("Uid")
@@ -442,19 +424,6 @@ namespace WebApiRH.Migrations
                     b.HasOne("WebApiRH.Models.Home", "Home")
                         .WithMany("Tenants")
                         .HasForeignKey("Fk_Home");
-                });
-
-            modelBuilder.Entity("WebApiRH.Models.Voted", b =>
-                {
-                    b.HasOne("WebApiRH.Models.User", "User")
-                        .WithMany("Voteds")
-                        .HasForeignKey("Fk_User")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebApiRH.Models.Voting", "Voting")
-                        .WithMany("Voteds")
-                        .HasForeignKey("Fk_Voting")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Voting", b =>

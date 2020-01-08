@@ -10,7 +10,7 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : Controller
@@ -25,18 +25,26 @@ namespace WebApiRH.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<LocalGroup>> Get()
         {
-            return db.LocalGroup.Include(p => p.Image).Include(p => p.Users).ToList();//.Include(p => p.Home)
+            return db.LocalGroup.Include(p => p.Image).Include(p => p.Users).OrderByDescending(p => p.CreatedAt).ToList();
+        }
+
+        // GET api/groups?Fk_Home={Uid}
+        [HttpGet("home")]
+        public ActionResult<IEnumerable<LocalGroup>> HomeGroups([FromQuery] String Fk_Home)
+        {
+            //var home = db.Home.Include(p => p.LocalGroups).FirstOrDefault(p => p.Uid == Fk_Home);
+            return db.LocalGroup.Include(p => p.Image).Where(p => p.Fk_Home == Fk_Home).OrderByDescending(p => p.CreatedAt).ToList();// .Include(p => p.Users) .Include(p => p.Home)
         }
 
         // GET api/groups/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(string uid)
-        {
-            LocalGroup lg = db.LocalGroup.Include(p => p.Image).Include(p => p.Admin).Include(p => p.Adverts).FirstOrDefault(x => x.Uid == uid);
-            if (lg == null)
-                return NotFound();
-            return new ObjectResult(lg);
-        }
+        //[HttpGet("{id}")]
+        //public ActionResult<string> Get(string uid)
+        //{
+        //    LocalGroup lg = db.LocalGroup.Include(p => p.Image).Include(p => p.Supervisor).Include(p => p.Adverts).FirstOrDefault(x => x.Uid == uid);
+        //    if (lg == null)
+        //        return NotFound();
+        //    return new ObjectResult(lg);
+        //}
 
         // POST api/groups
         [HttpPost("create")]
@@ -44,13 +52,10 @@ namespace WebApiRH.Controllers
         {
             try
             {
-                //var LocalGroup = (LocalGroup)model;
-                //LocalGroup.Fk_user = int.Parse(User.Identity.Name);
-                //LocalGroup.Service.DatePlace = DateTime.Now;
-
-                db.LocalGroup.Add((LocalGroup)model);
+                var group = (LocalGroup)model;
+                db.LocalGroup.Add(group);
                 db.SaveChanges();
-                return Ok();
+                return Ok(group);
             }
             catch (Exception e)
             {
@@ -62,15 +67,15 @@ namespace WebApiRH.Controllers
         }
 
         // PUT api/groups/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE api/groups/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

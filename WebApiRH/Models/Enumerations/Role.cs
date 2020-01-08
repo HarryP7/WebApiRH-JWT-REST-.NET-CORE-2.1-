@@ -10,6 +10,5 @@ namespace WebApiRH.Models
         admin = 1,
         user = 2,
         moderator = 3,
-        chairman = 4
     }
 }

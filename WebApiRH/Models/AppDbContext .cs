@@ -17,6 +17,7 @@ namespace WebApiRH.Models
         public DbSet<LocalGroup> LocalGroup { get; set; }
         public DbSet<Advert> Advert { get; set; }
         public DbSet<Voting> Voting { get; set; }
+        public DbSet<Voted> Voted { get; set; }
         public DbSet<Answer> Answer { get; set; }
         public DbSet<AdvertsReview> AdvertsReview { get; set; }
         public DbSet<Participant> Participant { get; set; }
