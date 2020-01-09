@@ -25,15 +25,17 @@ namespace WebApiRH.Controllers
         [HttpGet]
         public IEnumerable<Advert> Get([FromQuery] String Fk_Group)
         {
-            return db.Advert.Include(p => p.Votings).Where(x => x.Fk_LocalGroup == Fk_Group).OrderByDescending(p => p.CreatedAt).ToList();
+            LocalGroup lg = db.LocalGroup.Include(p => p.Adverts).ThenInclude(a => a.Votings).FirstOrDefault(p => p.Uid == Fk_Group);
+            return lg.Adverts.OrderByDescending(p => p.CreatedAt).ToList();
         }
 
         // GET api/adverts/profile?Uid={Uid}
         [HttpGet("profile")]
         public IActionResult Advert([FromQuery] String Uid)
         {
-            var adv = db.Advert.Include(p => p.Votings).Include(p => p.Author).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
-            var vot = db.Voting.Include(p => p.Options).Include(p => p.Voteds).Where(x => x.Fk_Advert == adv.Uid).OrderByDescending(p => p.CreatedAt).ToList();
+            Advert adv = db.Advert.Include(p => p.Votings).ThenInclude(p => p.Voteds).Include(p => p.Votings).ThenInclude(p => p.Options).
+                Include(p => p.Author).ThenInclude(p => p.Avatar).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
+            var vot = adv.Votings.OrderByDescending(p => p.CreatedAt).ToList();
             if (adv == null)
                 return NotFound();
             return Ok(new

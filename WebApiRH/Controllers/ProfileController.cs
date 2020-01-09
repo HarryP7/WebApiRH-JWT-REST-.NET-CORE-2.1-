@@ -75,8 +75,9 @@ namespace WebApiRH.Controllers
                 user.IsApprovedHome = true;
                 db.User.Update(user);
                 db.SaveChanges();
-                var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
-                var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == user.Fk_Home && x.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();
+                Home home = db.Home.Include(p => p.Tenants).ThenInclude(p => p.Avatar).FirstOrDefault(p => p.Uid == user.Fk_Home);
+                var approvedTantains = home.Tenants.Where(x => x.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
+                var newTantns = home.Tenants.Where(x => x.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();
                 return Ok(new
                 {
                     tantains = approvedTantains,

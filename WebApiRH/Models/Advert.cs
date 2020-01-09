@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,7 +32,7 @@ namespace WebApiRH.Models
         public virtual ICollection<Voting> Votings { get; set; } = new HashSet<Voting>();
         [InverseProperty(nameof(AdvertsReview.Advert))]
         public virtual ICollection<AdvertsReview> Reviews { get; set; } = new HashSet<AdvertsReview>();
-
+        [JsonIgnore]
         public virtual LocalGroup LocalGroup { get; set; }
         public virtual Images Image { get; set; }
         //public virtual Category Category { get; set; }

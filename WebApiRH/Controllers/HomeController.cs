@@ -26,7 +26,7 @@ namespace WebApiRH.Controllers
         [HttpGet("all")]
         public ActionResult<IEnumerable<Home>> Get()
         {
-            return db.Home.Include(p => p.ImageUrl).OrderByDescending(p => p.CreatedAt).ToList();
+            return db.Home.Include(p => p.ImageUrl).Include(p => p.Manager).OrderByDescending(p => p.CreatedAt).ToList();
         }
 
         // POST api/home/search

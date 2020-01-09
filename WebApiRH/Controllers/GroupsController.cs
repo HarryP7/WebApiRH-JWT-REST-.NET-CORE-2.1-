@@ -10,7 +10,7 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : Controller
@@ -32,20 +32,10 @@ namespace WebApiRH.Controllers
         [HttpGet("home")]
         public ActionResult<IEnumerable<LocalGroup>> HomeGroups([FromQuery] String Fk_Home)
         {
-            //var home = db.Home.Include(p => p.LocalGroups).FirstOrDefault(p => p.Uid == Fk_Home);
-            return db.LocalGroup.Include(p => p.Image).Where(p => p.Fk_Home == Fk_Home).OrderByDescending(p => p.CreatedAt).ToList();// .Include(p => p.Users) .Include(p => p.Home)
+            Home home = db.Home.Include(p => p.LocalGroups).ThenInclude(p => p.Image).FirstOrDefault(p => p.Uid == Fk_Home);
+            return home.LocalGroups.OrderByDescending(p => p.CreatedAt).ToList();
         }
-
-        // GET api/groups/5
-        //[HttpGet("{id}")]
-        //public ActionResult<string> Get(string uid)
-        //{
-        //    LocalGroup lg = db.LocalGroup.Include(p => p.Image).Include(p => p.Supervisor).Include(p => p.Adverts).FirstOrDefault(x => x.Uid == uid);
-        //    if (lg == null)
-        //        return NotFound();
-        //    return new ObjectResult(lg);
-        //}
-
+        
         // POST api/groups
         [HttpPost("create")]
         public IActionResult Create([FromBody] GroupCreateModel model)
