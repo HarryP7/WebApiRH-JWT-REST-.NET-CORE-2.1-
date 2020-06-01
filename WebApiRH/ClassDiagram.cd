@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="WebApiRH.Models.Advert">
+    <Position X="6.5" Y="0.5" Width="2.75" />
+    <AssociationLine Name="LocalGroup" Type="WebApiRH.Models.LocalGroup" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.5" Y="1" />
+        <Point X="5" Y="1" />
+        <Point X="5" Y="1.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.004" Y="0.54" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAEAIAAAAAEAAgDBAICAAAAAAQBAAAAAACAAQAAA=</HashCode>
+      <FileName>Models\Advert.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LocalGroup" />
+      <Property Name="Author" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.AdvertsReview">
+    <Position X="10.25" Y="0.5" Width="2" />
+    <AssociationLine Name="Author" Type="WebApiRH.Models.User" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="1.629" />
+        <Point X="9.875" Y="1.629" />
+        <Point X="9.875" Y="4.812" />
+        <Point X="9.65" Y="4.812" Type="JumpStart" />
+        <Point X="9.484" Y="4.812" Type="JumpEnd" />
+        <Point X="9.25" Y="4.812" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAEIAAAAAAEAAgDAAACAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AdvertsReview.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Author" />
+      <Property Name="Advert" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Answer">
+    <Position X="13" Y="1" Width="1.75" />
+    <AssociationLine Name="Voting" Type="WebApiRH.Models.Voting" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.423" Y="2.68" />
+        <Point X="13.423" Y="3.125" />
+        <Point X="12.5" Y="3.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.065" Y="0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACABAACAQAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Answer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Voting" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Home">
+    <Position X="1.25" Y="4.25" Width="2.25" />
+    <AssociationLine Name="Manager" Type="WebApiRH.Models.User" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="7.199" />
+        <Point X="6.5" Y="7.199" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.138" Y="0.071" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ImageUrl" Type="WebApiRH.Models.Images" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.375" Y="8.238" />
+        <Point X="2.375" Y="9.327" />
+        <Point X="11.25" Y="9.327" />
+        <Point X="11.25" Y="8.43" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAQAEIAAAgAOgIADAAACCAAgAABAAAAIIAAAAAAAA=</HashCode>
+      <FileName>Models\Home.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Manager" />
+      <Property Name="ImageUrl" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Images">
+    <Position X="10.25" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAADAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Models\Images.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WebApiRH.Models.LocalGroup">
+    <Position X="3.75" Y="1.5" Width="2" />
+    <AssociationLine Name="Supervisor" Type="WebApiRH.Models.User" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.281" Y="4.719" />
+        <Point X="5.281" Y="5.1" />
+        <Point X="6.5" Y="5.1" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Image" Type="WebApiRH.Models.Images" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.75" Y="4.125" />
+        <Point X="7.792" Y="4.125" Type="JumpStart" />
+        <Point X="7.958" Y="4.125" Type="JumpEnd" />
+        <Point X="9.567" Y="4.125" />
+        <Point X="9.567" Y="7" />
+        <Point X="10.25" Y="7" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="3.761" Y="2.908" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Home" Type="WebApiRH.Models.Home" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="3.938" />
+        <Point X="2.375" Y="3.938" />
+        <Point X="2.375" Y="4.25" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAICAoAAAAAEAAADAAACCAAQQAgBAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\LocalGroup.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Supervisor" />
+      <Property Name="Image" />
+      <Property Name="Home" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Participant">
+    <Position X="3.75" Y="5.25" Width="2" />
+    <AssociationLine Name="LocalGroup" Type="WebApiRH.Models.LocalGroup" FixedToPoint="true">
+      <Path>
+        <Point X="4.688" Y="5.25" />
+        <Point X="4.688" Y="4.719" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.099" Y="0.184" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIBAAAAAAAAAAAAABBgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Participant.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="LocalGroup" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.User">
+    <Position X="6.5" Y="4.5" Width="2.75" />
+    <Members>
+      <Property Name="Fk_Gender" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Home" Type="WebApiRH.Models.Home" FixedFromPoint="true">
+      <Path>
+        <Point X="6.5" Y="7.559" />
+        <Point X="3.5" Y="7.559" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.347" Y="0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>UACAAAEgQCAAAMAAEDQAAGAAAAQAACACAAAQIIAAQAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Avatar" />
+      <Property Name="Home" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Voted">
+    <Position X="13.25" Y="3.25" Width="1.75" />
+    <AssociationLine Name="Voting" Type="WebApiRH.Models.Voting">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.019" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="User" Type="WebApiRH.Models.User" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.234" Y="4.93" />
+        <Point X="14.234" Y="6.188" />
+        <Point X="9.65" Y="6.187" Type="JumpStart" />
+        <Point X="9.484" Y="6.188" Type="JumpEnd" />
+        <Point X="9.25" Y="6.188" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.161" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Answer" Type="WebApiRH.Models.Answer" FixedToPoint="true">
+      <Path>
+        <Point X="14.25" Y="3.25" />
+        <Point X="14.25" Y="2.68" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAACABAgAAAAAAAAQAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Voted.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Voting" />
+      <Property Name="User" />
+      <Property Name="Answer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Voting">
+    <Position X="10.25" Y="3" Width="2.25" />
+    <AssociationLine Name="Advert" Type="WebApiRH.Models.Advert" FixedToPoint="true">
+      <Path>
+        <Point X="10.25" Y="3.437" />
+        <Point X="9.958" Y="3.437" Type="JumpStart" />
+        <Point X="9.792" Y="3.437" Type="JumpEnd" />
+        <Point X="9.25" Y="3.437" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.019" Y="0.117" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQAAAAIAAAAAAEAAEDAAACAAAAAAAAAAAAABAEBABAA=</HashCode>
+      <FileName>Models\Voting.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Advert" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.GroupChat">
+    <Position X="1.25" Y="0.5" Width="2.25" />
+    <AssociationLine Name="LocalGroup" Type="WebApiRH.Models.LocalGroup" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.5" Y="0.968" />
+        <Point X="4.688" Y="0.968" />
+        <Point X="4.688" Y="1.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.06" Y="0.54" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Author" Type="WebApiRH.Models.User" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.25" Y="3" />
+        <Point X="0.941" Y="3" />
+        <Point X="0.941" Y="8.5" />
+        <Point X="2.292" Y="8.5" Type="JumpStart" />
+        <Point X="2.458" Y="8.5" Type="JumpEnd" />
+        <Point X="6.5" Y="8.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="5.257" Y="5.559" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAAAIAIAAAEAAgDBAACAAAAAAQBAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\GroupChat.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LocalGroup" />
+      <Property Name="Author" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Dialogue">
+    <Position X="12.5" Y="7.25" Width="2.5" />
+    <AssociationLine Name="Member2" Type="WebApiRH.Models.User" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="9.062" />
+        <Point X="11.333" Y="9.062" Type="JumpStart" />
+        <Point X="11.167" Y="9.062" Type="JumpEnd" />
+        <Point X="9.25" Y="9.062" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.358" Y="0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Member1" Type="WebApiRH.Models.User" FixedToPoint="true">
+      <Path>
+        <Point X="12.5" Y="8.812" />
+        <Point X="11.333" Y="8.812" Type="JumpStart" />
+        <Point X="11.167" Y="8.812" Type="JumpEnd" />
+        <Point X="9.25" Y="8.812" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.369" Y="0.027" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAASAAAAAACAAUAAADAAACAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\Dialogue.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Member2" />
+      <Property Name="Member1" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WebApiRH.Models.Message">
+    <Position X="15.25" Y="5.25" Width="1.75" />
+    <AssociationLine Name="Author" Type="WebApiRH.Models.User" FixedToPoint="true">
+      <Path>
+        <Point X="15.25" Y="6.562" />
+        <Point X="9.65" Y="6.562" Type="JumpStart" />
+        <Point X="9.484" Y="6.562" Type="JumpEnd" />
+        <Point X="9.25" Y="6.562" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.099" Y="0.117" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Image" Type="WebApiRH.Models.Images" FixedFromPoint="true">
+      <Path>
+        <Point X="15.25" Y="7.104" />
+        <Point X="12.25" Y="7.104" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.347" Y="0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="Dialogue" Type="WebApiRH.Models.Dialogue" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="16.125" Y="7.7" />
+        <Point X="16.125" Y="8.375" />
+        <Point X="15" Y="8.375" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIQAIAAEAAgBAAgCAAAAAAQBAAAAAACAAAAAA=</HashCode>
+      <FileName>Models\Message.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Author" />
+      <Property Name="Image" />
+      <Property Name="Dialogue" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
