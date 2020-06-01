@@ -14,6 +14,8 @@ using Microsoft.Extensions.Options;
 using WebApiRH.Models;
 using WebApiRH.Models.Services;
 using Microsoft.OpenApi.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace WebApiRH
 {
@@ -31,7 +33,22 @@ namespace WebApiRH
         {
             string con = "Server=(LocalDb)\\MSSQLLocalDB;Database=WebApiRH;Trusted_Connection=True;MultipleActiveResultSets=true";
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(con));
-            
+
+            services.AddScoped<SmtpClient>((serviceProvider) =>
+            {
+                var config = serviceProvider.GetRequiredService<IConfiguration>();
+                return new SmtpClient()
+                {
+                    Host = config.GetValue<string>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(
+                        config.GetValue<string>("Email:Smtp:Username"),
+                        config.GetValue<string>("Email:Smtp:Password"),
+                        config.GetValue<string>("Email:Smtp:Domain")),
+                };
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Регистрация генератора Swagger, определяем 1 или более документов Swagger
@@ -73,6 +90,7 @@ namespace WebApiRH
                 };
             });
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
