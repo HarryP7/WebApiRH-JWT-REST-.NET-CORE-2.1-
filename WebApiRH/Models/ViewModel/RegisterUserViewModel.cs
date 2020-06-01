@@ -24,7 +24,7 @@ namespace WebApiRH.Models.ViewModel
         {
             return new User()
             {
-                Uid = Guid.NewGuid().ToString("D"),
+                Uid = Guid.NewGuid(),
                 Login = m.Login,
                 Fk_Gender = 0,
                 Email = m.Email,

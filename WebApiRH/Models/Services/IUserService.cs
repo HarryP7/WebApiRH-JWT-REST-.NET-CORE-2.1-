@@ -10,11 +10,12 @@ namespace WebApiRH.Models.Services
     {
         User Authenticate(string login, string password);
         IEnumerable<User> Fetch(Expression<Func<User, bool>> predicate);
-        User Get(String id);
+        User Get(Guid id);
+        User Get(String Email);
         User Get(Func<User, bool> predicate);
         User Create(User user, string password);
-        void Update(User user, String Fk_Home, int Appartment, String Address);
+        void Update(User user, Guid Fk_Home, int Appartment, String Address);
         void UpdateAuth(User user, string password = null);
-        void Delete(String id);
+        void Delete(Guid id);
     }
 }
