@@ -16,17 +16,18 @@ using WebApiRH.Models.Helpers;
 
 namespace WebApiRH.Controllers
 {
+    /// <summary>
+    /// Содержит методы авторизации, регистрации, поиска аккаунта, изменения пароля, добавления адреса, и получения токена
+    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private readonly IUserService userService;
-        private readonly IConfiguration config;
 
-        public AuthController(IUserService userService, IConfiguration config)
+        public AuthController(IUserService userService)
         {
             this.userService = userService;
-            this.config = config;
         }
         [HttpGet]
         public IActionResult Register()
@@ -84,6 +85,66 @@ namespace WebApiRH.Controllers
                 userLogin = user
             });
         }
+        // Get api/auth/address?Email={Email}
+        [AllowAnonymous]
+        [HttpGet("findAccount")]
+        public IActionResult FindAccount([FromQuery] String Email)
+        {
+            try
+            {
+                var user = userService.Get(Email);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                Random rnd = new Random();
+                var cod = rnd.Next(10000, 99999);
+                //emailSender.Send(cod.ToString(), Email);
+                return Ok(new
+                {
+                    checkCod = cod,
+                    userLogin = user
+                });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("changePass")]
+        public IActionResult ChangePass([FromBody] ChangePassModel model)
+        {
+
+            var user = userService.Get(model.Email);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+               userService.UpdateAuth(user, model.Password);
+                return Ok();
+            }
+            catch (AppException e)
+            {
+                return BadRequest(new
+                {
+                    message = e.Message
+                });
+            }
+            catch
+            {
+                return BadRequest(new
+                {
+                    message = "Произошла ошибка, попробуйте позже"
+                });
+            }
+        }
 
         // POST api/auth/address
         [HttpPost("address")]
@@ -110,7 +171,7 @@ namespace WebApiRH.Controllers
                     userLogin = user
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new
                 {
@@ -118,7 +179,7 @@ namespace WebApiRH.Controllers
                 });
             }
         }
-
+        
         private string GetToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -127,7 +188,7 @@ namespace WebApiRH.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Uid),
+                    new Claim(ClaimTypes.Name, user.Uid.ToString()),
                     new Claim(ClaimTypes.Role, user.Fk_Role.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),

@@ -44,17 +44,25 @@ namespace WebApiRH.Models.Services
 
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.CreatedAt = DateTime.Now;
-            user.EditedAt = DateTime.Now;
+            var dt = DateTime.Now;
+            user.CreatedAt = dt;
+            user.EditedAt = dt;
 
             context.Add(user);
             context.SaveChanges();
 
             return user;
         }
-        public User Get(String Uid)
+
+        public User Get(Guid Uid)
         {
             try { return context.User.Where(u => u.Uid == Uid).Single(); }
+            catch { return null; }
+        }
+
+        public User Get(String Email)
+        {
+            try { return context.User.Include(u => u.Avatar).Where(u => u.Email == Email).Single(); }
             catch { return null; }
         }
         public User Get(Func<User, bool> predicate)
@@ -62,7 +70,7 @@ namespace WebApiRH.Models.Services
             try { return context.User.Where(predicate).Single(); }
             catch { return null; }
         }
-        public void Update(User user, String Fk_Home, int Appartment, String Address)
+        public void Update(User user, Guid Fk_Home, int Appartment, String Address)
         {
             if (!context.User.Any(x => x.Uid == user.Uid))
             {
@@ -76,10 +84,21 @@ namespace WebApiRH.Models.Services
         }
         public void UpdateAuth(User user, string password = null)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(password))
+                throw new AppException("Необходим пароль");
+            
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            var dt = DateTime.Now;
+            user.EditedAt = dt;
+
+            context.Update(user);
+            context.SaveChanges();
         }
 
-        public void Delete(String id)
+        public void Delete(Guid id)
         {
             context.Remove(new User() { Uid = id });
         }
