@@ -10,38 +10,51 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
+    /// <summary>
+    /// Содержит методы получения всех объявлений, одного объявления, создания объявления, отправка голосования и отзыва 
+    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AdvertsController : Controller
     {
-        AppDbContext db;
+        readonly AppDbContext db;
         public AdvertsController(AppDbContext db)
         {
             this.db = db;
         }
 
-        // GET api/adverts
+        // GET api/adverts?Fk_Group=
         [HttpGet]
-        public IEnumerable<Advert> Get([FromQuery] String Fk_Group)
+        public IEnumerable<Advert> Get([FromQuery] Guid Fk_Group)
         {
             LocalGroup lg = db.LocalGroup.Include(p => p.Adverts).ThenInclude(a => a.Votings).FirstOrDefault(p => p.Uid == Fk_Group);
-            return lg.Adverts.OrderByDescending(p => p.CreatedAt).ToList();
+            return lg.Adverts.OrderByDescending(p => p.CreatedAt).ToList().Take(50);
+        }
+        // GET api/adverts/list?Fk_Home=
+        [HttpGet("list")]
+        public IEnumerable<LocalGroup> AdvertList([FromQuery] Guid Fk_Home)
+        {
+            Home home = db.Home.Include(h => h.LocalGroups).ThenInclude(l => l.Adverts).ThenInclude(a => a.Votings).FirstOrDefault(h => h.Uid == Fk_Home);
+            return home.LocalGroups.ToList().Take(50);
         }
 
         // GET api/adverts/profile?Uid={Uid}
         [HttpGet("profile")]
-        public IActionResult Advert([FromQuery] String Uid)
+        public IActionResult Advert([FromQuery] Guid Uid)
         {
-            Advert adv = db.Advert.Include(p => p.Votings).ThenInclude(p => p.Voteds).Include(p => p.Votings).ThenInclude(p => p.Options).
-                Include(p => p.Author).ThenInclude(p => p.Avatar).Include(p => p.Reviews).FirstOrDefault(x => x.Uid == Uid);
+            Advert adv = db.Advert.Include(p => p.Votings).ThenInclude(p => p.Voteds).
+                                    Include(p => p.Votings).ThenInclude(p => p.Options).
+                                    Include(p => p.Author).ThenInclude(p => p.Avatar).
+                                    Include(p => p.Reviews).ThenInclude(p => p.Author).ThenInclude(p => p.Avatar).FirstOrDefault(x => x.Uid == Uid);
+            if (adv == null) return NotFound();
             var vot = adv.Votings.OrderByDescending(p => p.CreatedAt).ToList();
-            if (adv == null)
-                return NotFound();
+            var rev = adv.Reviews.OrderBy(p => p.CreatedAt).ToList();
             return Ok(new
             {
                 advert = adv,
-                voting = vot
+                voting = vot,
+                reviews = rev
             });
         }
 
@@ -77,7 +90,7 @@ namespace WebApiRH.Controllers
 
                 return Ok(advert);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new
                 {
@@ -86,9 +99,9 @@ namespace WebApiRH.Controllers
             }
         }
 
-        //PUT api/adverts/vote
-        [HttpPut("vote")]
-        public IActionResult Put([FromBody] VotedModel model, [FromQuery] String Fk_Option)
+        //POST api/adverts/vote
+        [HttpPost("vote")]
+        public IActionResult Vote([FromBody] VotedModel model, [FromQuery] Guid Fk_Option)
         {
             var option = db.Answer.FirstOrDefault(x => x.Uid == Fk_Option);
             var voting = db.Voting.FirstOrDefault(x => x.Uid == model.Fk_Voting);
@@ -103,7 +116,7 @@ namespace WebApiRH.Controllers
                 db.SaveChanges();
 
                 voting.TotalVotes += 1;
-                voting.yourOption = model.yourOption;
+                voting.YourOption = model.YourOption;
                 db.Voting.Update(voting);
                 db.SaveChanges();
 
@@ -112,7 +125,32 @@ namespace WebApiRH.Controllers
                 db.SaveChanges();
                 return Ok(voting);
             }
-            catch (Exception e)
+            catch (Exception)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
+        //POST api/adverts/review
+        [HttpPost("review")]
+        public IActionResult Review([FromBody] ReviewModel model)
+        {
+            var advert = db.Advert.FirstOrDefault(x => x.Uid == model.Fk_Advert);
+            if (advert == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var advertsReview = (AdvertsReview)model;
+                db.AdvertsReview.Add(advertsReview);
+                db.SaveChanges();
+                return Ok(advertsReview);
+
+            }
+            catch (Exception)
             {
                 return BadRequest(new
                 {
