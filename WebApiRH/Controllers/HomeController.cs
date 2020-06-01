@@ -10,15 +10,12 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
-    /// <summary>
-    /// Содержит методы получения всех домов, одного дома, поиска дома по параметрам, создания дома 
-    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class HomeController : ControllerBase
     {
-        readonly AppDbContext db;
+        AppDbContext db;
         public HomeController(AppDbContext db)
         {
             this.db = db;
@@ -80,7 +77,7 @@ namespace WebApiRH.Controllers
 
         // GET api/home?Fk_Home={Uid}
         [HttpGet]
-        public IActionResult Home([FromQuery] Guid Fk_Home)
+        public IActionResult Home([FromQuery] String Fk_Home)
         {            
             Home home = db.Home.Include(p => p.ImageUrl).Include(p => p.Manager).Include(p => p.LocalGroups).Include(p => p.Tenants).FirstOrDefault(x => x.Uid == Fk_Home);
             if (home == null)
@@ -120,7 +117,7 @@ namespace WebApiRH.Controllers
                 db.SaveChanges();
                 return Ok(home);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest(new
                 {

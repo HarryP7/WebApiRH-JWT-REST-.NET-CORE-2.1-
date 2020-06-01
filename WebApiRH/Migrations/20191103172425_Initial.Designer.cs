@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiRH.Models;
 
 namespace WebApiRH.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103172425_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +26,11 @@ namespace WebApiRH.Migrations
                     b.Property<string>("Uid")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Category");
+
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EditedAt");
-
-                    b.Property<string>("Fk_Author");
 
                     b.Property<int>("Fk_Category");
 
@@ -40,21 +42,21 @@ namespace WebApiRH.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasColumnType("nvarchar(MAX)");
+                        .HasColumnType("varchar(MAX)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int>("TotalVotes");
 
                     b.HasKey("Uid");
-
-                    b.HasIndex("Fk_Author");
 
                     b.HasIndex("Fk_Image");
 
                     b.HasIndex("Fk_LocalGroup");
 
-                    b.ToTable("Advert");
+                    b.ToTable("Adverts");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.AdvertsReview", b =>
@@ -74,7 +76,7 @@ namespace WebApiRH.Migrations
 
                     b.Property<string>("Reviews")
                         .IsRequired()
-                        .HasColumnType("nvarchar(MAX)");
+                        .HasColumnType("varchar(MAX)");
 
                     b.HasKey("Uid");
 
@@ -82,7 +84,7 @@ namespace WebApiRH.Migrations
 
                     b.HasIndex("Fk_Author");
 
-                    b.ToTable("AdvertsReview");
+                    b.ToTable("AdvertsReviews");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Answer", b =>
@@ -95,13 +97,13 @@ namespace WebApiRH.Migrations
                     b.Property<string>("Fk_Voting");
 
                     b.Property<string>("Option")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Uid");
 
                     b.HasIndex("Fk_Voting");
 
-                    b.ToTable("Answer");
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.GroupChat", b =>
@@ -119,7 +121,7 @@ namespace WebApiRH.Migrations
 
                     b.Property<string>("Message")
                         .IsRequired()
-                        .HasColumnType("nvarchar(MAX)");
+                        .HasColumnType("varchar(MAX)");
 
                     b.Property<bool>("Removed");
 
@@ -129,7 +131,7 @@ namespace WebApiRH.Migrations
 
                     b.HasIndex("Fk_LocalGroup");
 
-                    b.ToTable("GroupChat");
+                    b.ToTable("GroupChats");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Home", b =>
@@ -139,43 +141,37 @@ namespace WebApiRH.Migrations
 
                     b.Property<int>("Appartaments");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<DateTime>("EditedAt");
 
-                    b.Property<string>("Fk_ImageUrl");
+                    b.Property<string>("FK_Admin");
 
-                    b.Property<string>("Fk_Manager");
+                    b.Property<string>("Fk_ImageUrl");
 
                     b.Property<int>("Fk_Status");
 
                     b.Property<int>("Floors");
 
-                    b.Property<string>("HomeNumber")
+                    b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(5)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("Porches");
 
                     b.Property<bool>("Removed");
 
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Status");
 
-                    b.Property<string>("YearCommissioning");
+                    b.Property<DateTime>("YearCommissioning");
 
                     b.HasKey("Uid");
 
+                    b.HasIndex("FK_Admin");
+
                     b.HasIndex("Fk_ImageUrl");
 
-                    b.HasIndex("Fk_Manager");
-
-                    b.ToTable("Home");
+                    b.ToTable("Homes");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Images", b =>
@@ -184,6 +180,9 @@ namespace WebApiRH.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool>("Removed");
 
@@ -204,29 +203,27 @@ namespace WebApiRH.Migrations
 
                     b.Property<DateTime>("EditedAt");
 
+                    b.Property<string>("FK_Admin");
+
                     b.Property<string>("Fk_Home");
 
                     b.Property<string>("Fk_Image");
 
                     b.Property<int>("Fk_Status");
 
-                    b.Property<string>("Fk_Supervisor")
-                        .IsRequired();
-
                     b.Property<bool>("Removed");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<int>("Status");
 
                     b.HasKey("Uid");
+
+                    b.HasIndex("FK_Admin");
 
                     b.HasIndex("Fk_Home");
 
                     b.HasIndex("Fk_Image");
 
-                    b.HasIndex("Fk_Supervisor");
-
-                    b.ToTable("LocalGroup");
+                    b.ToTable("LocalGroups");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Participant", b =>
@@ -244,16 +241,13 @@ namespace WebApiRH.Migrations
 
                     b.HasIndex("Fk_User");
 
-                    b.ToTable("Participant");
+                    b.ToTable("Participants");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.User", b =>
                 {
                     b.Property<string>("Uid")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address")
-                        .HasColumnType("Nvarchar(MAX)");
 
                     b.Property<int>("Appartament");
 
@@ -262,11 +256,10 @@ namespace WebApiRH.Migrations
                     b.Property<DateTime>("EditedAt");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Fk_Avatar");
-
-                    b.Property<int?>("Fk_Gender");
 
                     b.Property<string>("Fk_Home");
 
@@ -274,13 +267,15 @@ namespace WebApiRH.Migrations
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("Nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("IsApprovedHome");
+                    b.Property<int>("Gender");
+
+                    b.Property<int?>("GenderId");
 
                     b.Property<string>("Login")
                         .IsRequired()
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<byte[]>("PasswordHash");
 
@@ -291,33 +286,15 @@ namespace WebApiRH.Migrations
 
                     b.Property<bool>("Removed");
 
+                    b.Property<int>("Role");
+
                     b.HasKey("Uid");
 
                     b.HasIndex("Fk_Avatar");
 
                     b.HasIndex("Fk_Home");
 
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("WebApiRH.Models.Voted", b =>
-                {
-                    b.Property<string>("Uid")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Fk_User")
-                        .IsRequired();
-
-                    b.Property<string>("Fk_Voting")
-                        .IsRequired();
-
-                    b.HasKey("Uid");
-
-                    b.HasIndex("Fk_User");
-
-                    b.HasIndex("Fk_Voting");
-
-                    b.ToTable("Voted");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Voting", b =>
@@ -325,38 +302,26 @@ namespace WebApiRH.Migrations
                     b.Property<string>("Uid")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<DateTime>("EditedAt");
-
                     b.Property<string>("Fk_Advert");
-
-                    b.Property<bool>("Removed");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("TotalVotes");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("isMulti");
 
                     b.Property<string>("yourOption")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Uid");
 
                     b.HasIndex("Fk_Advert");
 
-                    b.ToTable("Voting");
+                    b.ToTable("Votings");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Advert", b =>
                 {
-                    b.HasOne("WebApiRH.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("Fk_Author");
-
                     b.HasOne("WebApiRH.Models.Images", "Image")
                         .WithMany()
                         .HasForeignKey("Fk_Image");
@@ -397,17 +362,21 @@ namespace WebApiRH.Migrations
 
             modelBuilder.Entity("WebApiRH.Models.Home", b =>
                 {
+                    b.HasOne("WebApiRH.Models.User", "Admin")
+                        .WithMany()
+                        .HasForeignKey("FK_Admin");
+
                     b.HasOne("WebApiRH.Models.Images", "ImageUrl")
                         .WithMany()
                         .HasForeignKey("Fk_ImageUrl");
-
-                    b.HasOne("WebApiRH.Models.User", "Manager")
-                        .WithMany()
-                        .HasForeignKey("Fk_Manager");
                 });
 
             modelBuilder.Entity("WebApiRH.Models.LocalGroup", b =>
                 {
+                    b.HasOne("WebApiRH.Models.User", "Admin")
+                        .WithMany("ManagedGroups")
+                        .HasForeignKey("FK_Admin");
+
                     b.HasOne("WebApiRH.Models.Home", "Home")
                         .WithMany("LocalGroups")
                         .HasForeignKey("Fk_Home");
@@ -415,11 +384,6 @@ namespace WebApiRH.Migrations
                     b.HasOne("WebApiRH.Models.Images", "Image")
                         .WithMany()
                         .HasForeignKey("Fk_Image");
-
-                    b.HasOne("WebApiRH.Models.User", "Supervisor")
-                        .WithMany("ManagedGroups")
-                        .HasForeignKey("Fk_Supervisor")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Participant", b =>
@@ -442,19 +406,6 @@ namespace WebApiRH.Migrations
                     b.HasOne("WebApiRH.Models.Home", "Home")
                         .WithMany("Tenants")
                         .HasForeignKey("Fk_Home");
-                });
-
-            modelBuilder.Entity("WebApiRH.Models.Voted", b =>
-                {
-                    b.HasOne("WebApiRH.Models.User", "User")
-                        .WithMany("Voteds")
-                        .HasForeignKey("Fk_User")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebApiRH.Models.Voting", "Voting")
-                        .WithMany("Voteds")
-                        .HasForeignKey("Fk_Voting")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("WebApiRH.Models.Voting", b =>
