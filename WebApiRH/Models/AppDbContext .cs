@@ -22,6 +22,8 @@ namespace WebApiRH.Models
         public DbSet<AdvertsReview> AdvertsReview { get; set; }
         public DbSet<Participant> Participant { get; set; }
         public DbSet<GroupChat> GroupChat { get; set; }
+        public DbSet<Dialogue> Dialogue { get; set; }
+        public DbSet<Message> Message { get; set; }
         public DbSet<Images> Images { get; set; }
     }
 }

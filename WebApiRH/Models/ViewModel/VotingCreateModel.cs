@@ -7,21 +7,21 @@ namespace WebApiRH.Models.ViewModel
     {
         public string Title { get; set; }
         public ICollection<AnswerCreateModel> Options { get; set; }
-        public bool isMulti { get; set; }
-        public String Fk_Advert { get; set; }
+        public bool IsMulti { get; set; }
+        public Guid Fk_Advert { get; set; }
+        public DateTime CreatedAt = DateTime.Now;
 
         public static explicit operator Voting(VotingCreateModel m)
         {
             return new Voting()
             {
-                Uid = Guid.NewGuid().ToString("D"),
+                Uid = Guid.NewGuid(),
                 Title = m.Title,
-                isMulti = m.isMulti,
+                IsMulti = m.IsMulti,
                 Fk_Advert = m.Fk_Advert,
                 TotalVotes = 0,
-                CreatedAt = DateTime.Now,
-                EditedAt = DateTime.Now,
-                Removed = false
+                CreatedAt = m.CreatedAt,
+                EditedAt = m.CreatedAt,
             };
         }
     }

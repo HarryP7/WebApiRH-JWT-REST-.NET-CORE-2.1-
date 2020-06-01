@@ -11,7 +11,7 @@ namespace WebApiRH.Models
     public class User
     {
         [Key]
-        public String Uid { get; set; }
+        public Guid Uid { get; set; }
         [Required]
         [Display(Name = "Имя пользователя"), Column(TypeName = "Nvarchar(100)")]
         public String FullName { get; set; }
@@ -25,12 +25,12 @@ namespace WebApiRH.Models
         [Display(Name = "Телефон"), Column(TypeName = "varchar(15)")]
         public String Phone { get; set; }
         [Display(Name = "Аватар"), ForeignKey(nameof(Avatar))]
-        public String Fk_Avatar { get; set; }
+        public Nullable<Guid> Fk_Avatar { get; set; }
         public int Appartament { get; set; }
         [Display(Name = "Роль")]
         public int Fk_Role { get; set; }
         [Display(Name = "Дом"), ForeignKey(nameof(Home))]
-        public String Fk_Home { get; set; }
+        public Nullable<Guid> Fk_Home { get; set; }
         [Column(TypeName = "Nvarchar(MAX)")]
         public String Address { get; set; }
         public bool IsApprovedHome { get; set; }
@@ -52,10 +52,10 @@ namespace WebApiRH.Models
 
         [InverseProperty(nameof(Voted.User))]
         public virtual ICollection<Voted> Voteds { get; set; } = new HashSet<Voted>();
+        [InverseProperty(nameof(Dialogue.Member))]
+        public virtual ICollection<Dialogue> Dialogues { get; set; } = new HashSet<Dialogue>();
 
-        //public virtual Gender Gender { get; set; }
         public virtual Images Avatar { get; set; }
-        //public virtual Role Role { get; set; }
         [JsonIgnore]
         public virtual Home Home { get; set; }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApiRH.Models;
 
 namespace WebApiRH.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200526212629_addedNullable")]
+    partial class addedNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<int>("Fk_Category");
 
-                b.Property<Guid?>("Fk_Image");
+                b.Property<Guid>("Fk_Image");
 
                 b.Property<Guid>("Fk_LocalGroup");
 
@@ -115,8 +117,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<Guid>("FK_Author");
 
-                b.Property<Guid?>("Fk_GroupChat")
-                    .IsRequired();
+                b.Property<Guid>("Fk_GroupChat");
 
                 b.Property<Guid>("Fk_Image");
 
@@ -172,7 +173,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<Guid>("Fk_Author");
 
-                b.Property<Guid?>("Fk_Image");
+                b.Property<Guid>("Fk_Image");
 
                 b.Property<Guid>("Fk_LocalGroup");
 
@@ -208,7 +209,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<DateTime>("EditedAt");
 
-                b.Property<Guid?>("Fk_ImageUrl");
+                b.Property<Guid>("Fk_ImageUrl");
 
                 b.Property<Guid>("Fk_Manager");
 
@@ -267,7 +268,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<Guid>("Fk_Home");
 
-                b.Property<Guid?>("Fk_Image");
+                b.Property<Guid>("Fk_Image");
 
                 b.Property<int>("Fk_Status");
 
@@ -302,7 +303,7 @@ namespace WebApiRH.Migrations
 
                 b.Property<Guid>("Fk_Dialogue");
 
-                b.Property<Guid?>("Fk_Image");
+                b.Property<Guid>("Fk_Image");
 
                 b.Property<bool>("Removed");
 
@@ -356,7 +357,7 @@ namespace WebApiRH.Migrations
                 b.Property<string>("Email")
                     .HasColumnType("varchar(50)");
 
-                b.Property<Guid?>("Fk_Avatar");
+                b.Property<Guid>("Fk_Avatar");
 
                 b.Property<int?>("Fk_Gender");
 
@@ -456,7 +457,8 @@ namespace WebApiRH.Migrations
 
                 b.HasOne("WebApiRH.Models.Images", "Image")
                     .WithMany()
-                    .HasForeignKey("Fk_Image");
+                    .HasForeignKey("Fk_Image")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("WebApiRH.Models.LocalGroup", "LocalGroup")
                     .WithMany("Adverts")
@@ -525,7 +527,8 @@ namespace WebApiRH.Migrations
 
                 b.HasOne("WebApiRH.Models.Images", "Image")
                     .WithMany()
-                    .HasForeignKey("Fk_Image");
+                    .HasForeignKey("Fk_Image")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("WebApiRH.Models.LocalGroup", "LocalGroup")
                     .WithMany("Messages")
@@ -537,7 +540,8 @@ namespace WebApiRH.Migrations
             {
                 b.HasOne("WebApiRH.Models.Images", "ImageUrl")
                     .WithMany()
-                    .HasForeignKey("Fk_ImageUrl");
+                    .HasForeignKey("Fk_ImageUrl")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("WebApiRH.Models.User", "Manager")
                     .WithMany()
@@ -554,7 +558,8 @@ namespace WebApiRH.Migrations
 
                 b.HasOne("WebApiRH.Models.Images", "Image")
                     .WithMany()
-                    .HasForeignKey("Fk_Image");
+                    .HasForeignKey("Fk_Image")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("WebApiRH.Models.User", "Supervisor")
                     .WithMany("ManagedGroups")
@@ -576,7 +581,8 @@ namespace WebApiRH.Migrations
 
                 b.HasOne("WebApiRH.Models.Images", "Image")
                     .WithMany()
-                    .HasForeignKey("Fk_Image");
+                    .HasForeignKey("Fk_Image")
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity("WebApiRH.Models.Participant", b =>
@@ -596,7 +602,8 @@ namespace WebApiRH.Migrations
             {
                 b.HasOne("WebApiRH.Models.Images", "Avatar")
                     .WithMany()
-                    .HasForeignKey("Fk_Avatar");
+                    .HasForeignKey("Fk_Avatar")
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne("WebApiRH.Models.Home", "Home")
                     .WithMany("Tenants")

@@ -11,11 +11,11 @@ namespace WebApiRH.Models
     public class Home
     {
         [Key]
-        public String Uid { get; set; }
+        public Guid Uid { get; set; }
         [Display(Name = "Управляющий"), ForeignKey(nameof(Manager))]
-        public String Fk_Manager { get; set; }
+        public Guid Fk_Manager { get; set; }
         [Display(Name = "Аватар Url"), ForeignKey(nameof(ImageUrl))]
-        public String Fk_ImageUrl { get; set; }
+        public Nullable<Guid> Fk_ImageUrl { get; set; }
         [Required]
         [Display(Name = "Город"), Column(TypeName = "nvarchar(50)")]
         public String City { get; set; }

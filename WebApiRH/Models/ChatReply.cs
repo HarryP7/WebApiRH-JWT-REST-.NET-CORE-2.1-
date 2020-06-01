@@ -17,9 +17,9 @@ namespace WebApiRH.Models
         public string Reply { get; set; }
         [Required]
         [Display(Name = "Сообщение чата группы"), ForeignKey(nameof(GroupChat))]
-        public Nullable<Guid> Fk_GroupChat { get; set; }
+        public Guid Fk_GroupChat { get; set; }
         [Display(Name = "Картинка"), ForeignKey(nameof(Image))]
-        public Guid Fk_Image { get; set; }
+        public Nullable<Guid> Fk_Image { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime EditedAt { get; set; }
         public bool Removed { get; set; }

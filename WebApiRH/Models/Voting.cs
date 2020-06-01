@@ -9,16 +9,16 @@ namespace WebApiRH.Models
     public class Voting
     {
         [Key]
-        public String Uid { get; set; }
+        public Guid Uid { get; set; }
         [Required]
         [Display(Name = "Вопрос"), Column(TypeName = "nvarchar(200)")]
         public string Title { get; set; }
         [Display(Name = "Свой вариант"), Column(TypeName = "nvarchar(50)")]
-        public string yourOption { get; set; }
+        public string YourOption { get; set; }
         [Display(Name = "Многовариантное голосование")]
-        public bool isMulti { get; set; }
+        public bool IsMulti { get; set; }
         [Display(Name = "Локальная группа"), ForeignKey(nameof(Advert))]
-        public String Fk_Advert { get; set; }
+        public Guid Fk_Advert { get; set; }
         [Display(Name = "Общее число голосов")]
         public int TotalVotes { get; set; }
         public DateTime CreatedAt { get; set; }

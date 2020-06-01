@@ -9,9 +9,9 @@ namespace WebApiRH.Models
     public class Advert
     {
         [Key]
-        public String Uid { get; set; }
+        public Guid Uid { get; set; }
         [Display(Name = "Автор"), ForeignKey(nameof(Author))]
-        public String Fk_Author { get; set; }
+        public Guid Fk_Author { get; set; }
         [Required]
         [Display(Name = "Заголовок объявления"), Column(TypeName = "nvarchar(200)")]
         public string Title { get; set; }
@@ -19,11 +19,11 @@ namespace WebApiRH.Models
         [Display(Name = "Текст"), Column(TypeName = "nvarchar(MAX)")]
         public string Text { get; set; }
         [Display(Name = "Картинка"), ForeignKey(nameof(Image))]
-        public String Fk_Image { get; set; }
+        public Nullable<Guid> Fk_Image { get; set; }
         [Display(Name = "Категория")]
         public int Fk_Category { get; set; }
         [Display(Name = "Локальная группа"), ForeignKey(nameof(LocalGroup))]
-        public String Fk_LocalGroup { get; set; }
+        public Guid Fk_LocalGroup { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime EditedAt { get; set; }
         public bool Removed { get; set; }
