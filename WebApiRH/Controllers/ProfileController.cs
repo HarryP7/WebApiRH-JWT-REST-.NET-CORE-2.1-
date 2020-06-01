@@ -10,12 +10,15 @@ using WebApiRH.Models.ViewModel;
 
 namespace WebApiRH.Controllers
 {
+    /// <summary>
+    /// Содержит методы получения всех профилей, одного профиля, жителей дома, поиска профиля по имени, утвреждения профиля в доме, обновления профиля, загрузки картинки 
+    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProfileController : ControllerBase
     {
-        AppDbContext db;
+        readonly AppDbContext db;
         public ProfileController(AppDbContext db)
         {
             this.db = db;
@@ -30,9 +33,9 @@ namespace WebApiRH.Controllers
 
         // GET api/profile?Uid={Uid}
         [HttpGet]
-        public IActionResult Profile([FromQuery] String Uid)
+        public IActionResult Profile([FromQuery] Guid Uid)
         {            
-            User user = db.User.Include(p => p.Avatar).Include(p => p.MyGroups).FirstOrDefault(x => x.Uid == Uid);
+            User user = db.User.Include(p => p.Avatar).FirstOrDefault(x => x.Uid == Uid);
             if (user == null)
                 return NotFound();
             return new ObjectResult(user);
@@ -40,7 +43,7 @@ namespace WebApiRH.Controllers
 
         // GET api/profile/tentants?Fk_Home={Fk_Home}
         [HttpGet("tentants")]
-        public IActionResult Tentants([FromQuery] String Fk_Home)
+        public IActionResult Tentants([FromQuery] Guid Fk_Home)
         {
             var approvedTantains = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == true).OrderByDescending(p => p.CreatedAt).ToList();
             var newTantns = db.User.Include(p => p.Avatar).Where(x => x.Fk_Home == Fk_Home && x.IsApprovedHome == false).OrderByDescending(p => p.CreatedAt).ToList();            
@@ -63,7 +66,7 @@ namespace WebApiRH.Controllers
 
         //PUT api/profile/approve?Uid={Uid}
         [HttpPut("approve")]
-        public IActionResult Approve([FromQuery] String Uid)
+        public IActionResult Approve([FromQuery] Guid Uid)
         {
             try
             {
@@ -84,7 +87,7 @@ namespace WebApiRH.Controllers
                     newTantains = newTantns
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest(new
                 {
@@ -93,25 +96,66 @@ namespace WebApiRH.Controllers
             }
         }
 
-        // PUT api/profile/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put([FromQuery] String Uid, [FromBody] HomeCreateModel model)
-        //{
-        //    try
-        //    {
-        //        db.Home.Add((Home)model);
-        //        db.SaveChanges();
-        //        return Ok();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(new
-        //        {
-        //            message = "На сервере произошла ошибка, попробуйте позже"
-        //        });
-        //    }
-        //}
+        //PUT api/profile/upd?Uid={Uid}
+        [HttpPut("upd")]
+        public IActionResult Put([FromQuery] Guid Uid, [FromBody] EditUserModel model)
+        {
+            try
+            {
+                var user = db.User.Include(p => p.Avatar).FirstOrDefault(x => x.Uid == Uid);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                user.Login = model.Login;
+                user.Email = model.Email;
+                user.FullName = model.FullName;
+                user.Phone = model.Phone;
+                db.User.Update(user);
+                db.SaveChanges();
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
 
+        //PUT api/profile/loadImage?Uid={Uid}
+        [HttpPut("loadImage")]
+        public IActionResult LoadImage([FromQuery] Guid Uid, [FromBody] LoadImageModel model)
+        {
+            try
+            {
+                var user = db.User.Include(p => p.Avatar).FirstOrDefault(x => x.Uid == Uid);
+                if (user == null) {
+                    return BadRequest();
+                }
+                if (user.Fk_Avatar != null) {
+                    var image = (Images)model;
+                    image.Uid = user.Avatar.Uid;
+                    db.Images.Update(image);
+                }
+                else {
+                    var image = (Images)model;
+                    db.Images.Add(image);
+                    user.Fk_Avatar = image.Uid;
+                    db.User.Update(user);
+                }
+                db.SaveChanges();
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new
+                {
+                    message = "На сервере произошла ошибка, попробуйте позже"
+                });
+            }
+        }
         // DELETE api/profile/5
         //    [HttpDelete("{id}")]
         //    public void Delete(int id)
