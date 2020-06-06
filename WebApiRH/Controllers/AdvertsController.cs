@@ -101,9 +101,9 @@ namespace WebApiRH.Controllers
 
         //POST api/adverts/vote
         [HttpPost("vote")]
-        public IActionResult Vote([FromBody] VotedModel model, [FromQuery] Guid Fk_Option)
+        public IActionResult Vote([FromBody] VotedModel model)
         {
-            var option = db.Answer.FirstOrDefault(x => x.Uid == Fk_Option);
+            var option = db.Answer.FirstOrDefault(x => x.Uid == model.Fk_Answer);
             var voting = db.Voting.FirstOrDefault(x => x.Uid == model.Fk_Voting);
             if (option == null || voting == null)
             {

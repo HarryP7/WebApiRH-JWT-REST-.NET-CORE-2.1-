@@ -18,6 +18,7 @@ namespace WebApiRH.Models
         public Guid Fk_Voting { get; set; }
         [Display(Name = "Ответ"), ForeignKey(nameof(Answer))]
         public Guid Fk_Answer { get; set; }
+        public DateTime DateAt { get; set; }
 
 
         [JsonIgnore]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,6 +21,7 @@ namespace WebApiRH.Models
         public bool Removed { get; set; }
 
         public virtual User Author { get; set; }
+        [JsonIgnore]
         public virtual Advert Advert { get; set; }
     }
 }
