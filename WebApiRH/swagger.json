@@ -1,0 +1,2151 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Rule your home",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Adverts": {
+      "get": {
+        "tags": [
+          "Adverts"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Group",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Advert"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Advert"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Advert"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Adverts/list": {
+      "get": {
+        "tags": [
+          "Adverts"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Home",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Adverts/profile": {
+      "get": {
+        "tags": [
+          "Adverts"
+        ],
+        "parameters": [
+          {
+            "name": "Uid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Adverts/create": {
+      "post": {
+        "tags": [
+          "Adverts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertCreateModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertCreateModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertCreateModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvertCreateModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Adverts/vote": {
+      "post": {
+        "tags": [
+          "Adverts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VotedModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VotedModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VotedModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VotedModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Adverts/review": {
+      "post": {
+        "tags": [
+          "Adverts"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/signup": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUserViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/signin": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUserViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUserViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUserViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthUserViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/findAccount": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/changePass": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/address": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAdressModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAdressModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAdressModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAdressModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Groups": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/home": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Home",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LocalGroup"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/create": {
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupCreateModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupCreateModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupCreateModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupCreateModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Groups/chat": {
+      "get": {
+        "tags": [
+          "Groups"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Group",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupChat"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupChat"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupChat"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Groups/saveMessage": {
+      "post": {
+        "tags": [
+          "Groups"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupChatModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupChatModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupChatModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupChatModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Home/all": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Home/search": {
+      "post": {
+        "tags": [
+          "Home"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeSearchModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeSearchModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeSearchModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeSearchModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Home"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Home": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Home",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Home/create": {
+      "post": {
+        "tags": [
+          "Home"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeCreateModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeCreateModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeCreateModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HomeCreateModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Profile/all": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Profile": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Uid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Profile/tentants": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Fk_Home",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Profile/search": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Profile/approve": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Uid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Profile/upd": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Uid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditUserModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Profile/loadImage": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "parameters": [
+          {
+            "name": "Uid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoadImageModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoadImageModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoadImageModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoadImageModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Answer": {
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Option": {
+            "type": "string",
+            "nullable": true
+          },
+          "Count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Fk_Voting": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Voting": {
+            "$ref": "#/components/schemas/Voting"
+          }
+        },
+        "nullable": true
+      },
+      "Images": {
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Url": {
+            "type": "string",
+            "nullable": true
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UrlRemove": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "ChatReply": {
+        "required": [
+          "FK_Author",
+          "Fk_GroupChat",
+          "Reply"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FK_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Reply": {
+            "type": "string"
+          },
+          "Fk_GroupChat": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Image": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "GroupChat": {
+            "$ref": "#/components/schemas/GroupChat"
+          },
+          "Author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Image": {
+            "$ref": "#/components/schemas/Images"
+          }
+        },
+        "nullable": true
+      },
+      "GroupChat": {
+        "required": [
+          "Fk_LocalGroup",
+          "Text"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Text": {
+            "type": "string"
+          },
+          "Fk_LocalGroup": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Image": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "GroupReplys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatReply"
+            },
+            "nullable": true
+          },
+          "LocalGroup": {
+            "$ref": "#/components/schemas/LocalGroup"
+          },
+          "Author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Image": {
+            "$ref": "#/components/schemas/Images"
+          }
+        },
+        "nullable": true
+      },
+      "Home": {
+        "required": [
+          "City",
+          "Fk_Status",
+          "HomeNumber",
+          "Street"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Manager": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_ImageUrl": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "City": {
+            "type": "string"
+          },
+          "Street": {
+            "type": "string"
+          },
+          "HomeNumber": {
+            "type": "string"
+          },
+          "Fk_Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Appartaments": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Floors": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Porches": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "YearCommissioning": {
+            "type": "string",
+            "nullable": true
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Tenants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "nullable": true
+          },
+          "LocalGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocalGroup"
+            },
+            "nullable": true
+          },
+          "Manager": {
+            "$ref": "#/components/schemas/User"
+          },
+          "ImageUrl": {
+            "$ref": "#/components/schemas/Images"
+          }
+        },
+        "nullable": true
+      },
+      "LocalGroup": {
+        "required": [
+          "Fk_Supervisor"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Supervisor": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Image": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "Fk_Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Fk_Home": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            },
+            "nullable": true
+          },
+          "Adverts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Advert"
+            },
+            "nullable": true
+          },
+          "Messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupChat"
+            },
+            "nullable": true
+          },
+          "Supervisor": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Image": {
+            "$ref": "#/components/schemas/Images"
+          },
+          "Home": {
+            "$ref": "#/components/schemas/Home"
+          }
+        },
+        "nullable": true
+      },
+      "Participant": {
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_User": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_LocalGroup": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "User": {
+            "$ref": "#/components/schemas/User"
+          },
+          "LocalGroup": {
+            "$ref": "#/components/schemas/LocalGroup"
+          }
+        },
+        "nullable": true
+      },
+      "Message": {
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Text": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Dialogue": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Image": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "CreateAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Dialogue": {
+            "$ref": "#/components/schemas/Dialogue"
+          },
+          "Image": {
+            "$ref": "#/components/schemas/Images"
+          }
+        },
+        "nullable": true
+      },
+      "Dialogue": {
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FkUser1": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FkUser2": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            },
+            "nullable": true
+          },
+          "Member": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Member2": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "nullable": true
+      },
+      "User": {
+        "required": [
+          "FullName",
+          "Login"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FullName": {
+            "type": "string"
+          },
+          "Fk_Gender": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Login": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Avatar": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "Appartament": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Fk_Role": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Fk_Home": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsApprovedHome": {
+            "type": "boolean"
+          },
+          "PasswordHash": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "PasswordSalt": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "MyGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            },
+            "nullable": true
+          },
+          "ManagedGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LocalGroup"
+            },
+            "nullable": true
+          },
+          "Voteds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Voted"
+            },
+            "nullable": true
+          },
+          "Dialogues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Dialogue"
+            },
+            "nullable": true
+          },
+          "Avatar": {
+            "$ref": "#/components/schemas/Images"
+          },
+          "Home": {
+            "$ref": "#/components/schemas/Home"
+          }
+        },
+        "nullable": true
+      },
+      "Voted": {
+        "required": [
+          "Fk_User",
+          "Fk_Voting"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_User": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Voting": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Answer": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "DateAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Voting": {
+            "$ref": "#/components/schemas/Voting"
+          },
+          "Answer": {
+            "$ref": "#/components/schemas/Answer"
+          },
+          "User": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "nullable": true
+      },
+      "Voting": {
+        "required": [
+          "Title"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "YourOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "IsMulti": {
+            "type": "boolean"
+          },
+          "Fk_Advert": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "TotalVotes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            },
+            "nullable": true
+          },
+          "Voteds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Voted"
+            },
+            "nullable": true
+          },
+          "Advert": {
+            "$ref": "#/components/schemas/Advert"
+          }
+        },
+        "nullable": true
+      },
+      "AdvertsReview": {
+        "required": [
+          "Reviews"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Reviews": {
+            "type": "string"
+          },
+          "Fk_Advert": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "Advert": {
+            "$ref": "#/components/schemas/Advert"
+          }
+        },
+        "nullable": true
+      },
+      "Advert": {
+        "required": [
+          "Text",
+          "Title"
+        ],
+        "type": "object",
+        "properties": {
+          "Uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "Text": {
+            "type": "string"
+          },
+          "Fk_Image": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "Fk_Category": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Fk_LocalGroup": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "EditedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Removed": {
+            "type": "boolean"
+          },
+          "Votings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Voting"
+            },
+            "nullable": true
+          },
+          "Reviews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdvertsReview"
+            },
+            "nullable": true
+          },
+          "LocalGroup": {
+            "$ref": "#/components/schemas/LocalGroup"
+          },
+          "Image": {
+            "$ref": "#/components/schemas/Images"
+          },
+          "Author": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "nullable": true
+      },
+      "AnswerCreateModel": {
+        "type": "object",
+        "properties": {
+          "Option": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Voting": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "VotingCreateModel": {
+        "type": "object",
+        "properties": {
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswerCreateModel"
+            },
+            "nullable": true
+          },
+          "IsMulti": {
+            "type": "boolean"
+          },
+          "Fk_Advert": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "AdvertCreateModel": {
+        "type": "object",
+        "properties": {
+          "Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Text": {
+            "type": "string",
+            "nullable": true
+          },
+          "Category": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "LocalGroup": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Voting": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VotingCreateModel"
+            },
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "VotedModel": {
+        "type": "object",
+        "properties": {
+          "Fk_User": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Voting": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "YourOption": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Answer": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "ReviewModel": {
+        "type": "object",
+        "properties": {
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Reviews": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Advert": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "RegisterUserViewModel": {
+        "required": [
+          "Email",
+          "FullName",
+          "Login",
+          "Password"
+        ],
+        "type": "object",
+        "properties": {
+          "Login": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "FullName": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string",
+            "format": "password"
+          },
+          "Role": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "nullable": true
+      },
+      "AuthUserViewModel": {
+        "required": [
+          "Login",
+          "Password"
+        ],
+        "type": "object",
+        "properties": {
+          "Login": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "nullable": true
+      },
+      "ChangePassModel": {
+        "required": [
+          "Email",
+          "Password"
+        ],
+        "type": "object",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "nullable": true
+      },
+      "AddAdressModel": {
+        "type": "object",
+        "properties": {
+          "Fk_User": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Home": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Appartment": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Address": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "GroupCreateModel": {
+        "type": "object",
+        "properties": {
+          "Supervisor": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string",
+            "nullable": true
+          },
+          "Home": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Image": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "GroupChatModel": {
+        "type": "object",
+        "properties": {
+          "Fk_Author": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Message": {
+            "type": "string",
+            "nullable": true
+          },
+          "Image": {
+            "type": "string",
+            "nullable": true
+          },
+          "Fk_Group": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "nullable": true
+      },
+      "HomeSearchModel": {
+        "type": "object",
+        "properties": {
+          "City": {
+            "type": "string",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "nullable": true
+          },
+          "HomeNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "HomeCreateModel": {
+        "type": "object",
+        "properties": {
+          "Manager": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "City": {
+            "type": "string",
+            "nullable": true
+          },
+          "Street": {
+            "type": "string",
+            "nullable": true
+          },
+          "HomeNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "Appartaments": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Floors": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Porches": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Year": {
+            "type": "string",
+            "nullable": true
+          },
+          "Status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Image": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Fk_Role": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "nullable": true
+      },
+      "EditUserModel": {
+        "type": "object",
+        "properties": {
+          "Login": {
+            "type": "string",
+            "nullable": true
+          },
+          "Email": {
+            "type": "string",
+            "nullable": true
+          },
+          "FullName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Phone": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "LoadImageModel": {
+        "type": "object",
+        "properties": {
+          "Url": {
+            "type": "string",
+            "nullable": true
+          },
+          "UrlDelete": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      }
+    }
+  }
+}
