@@ -16,6 +16,7 @@ using WebApiRH.Models.Services;
 using Microsoft.OpenApi.Models;
 using System.Net.Mail;
 using System.Net;
+using System;
 
 namespace WebApiRH
 {
@@ -31,7 +32,7 @@ namespace WebApiRH
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string con = "Server=(LocalDb)\\MSSQLLocalDB;Database=WebApiRH;Trusted_Connection=True;MultipleActiveResultSets=true";
+            string con = "Server=(LocalDb)\\MSSQLLocalDB;Database=WebApiRHv1;Trusted_Connection=True;MultipleActiveResultSets=true";
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(con));
 
             services.AddScoped<SmtpClient>((serviceProvider) =>
@@ -57,7 +58,7 @@ namespace WebApiRH
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Rule your home", Version = "v1" });
             });
 
-            //конфигурирование JWT-аутендификации
+            //конфигурирование JWT-аутентификации
             var key = Encoding.ASCII.GetBytes("Config:SecretKey");
             services.AddAuthentication(x =>
             {
@@ -70,7 +71,7 @@ namespace WebApiRH
                     OnTokenValidated = context =>
                     {
                         var userService =context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = context.Principal.Identity.Name;
+                        var userId = Guid.Parse(context.Principal.Identity.Name);
                         var user = userService.Get(userId);
                         if (user == null)
                         {
